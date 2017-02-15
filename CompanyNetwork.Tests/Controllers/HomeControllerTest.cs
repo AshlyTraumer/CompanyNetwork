@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CompanyNetwork;
 using CompanyNetwork.Controllers;
+using DomenModel.Enums;
+using DomenModel.Models;
 
 namespace CompanyNetwork.Tests.Controllers
 {
@@ -15,14 +17,16 @@ namespace CompanyNetwork.Tests.Controllers
         [TestMethod]
         public void Index()
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            var context = new DomenModel.CompanyContext();
+            context.Departaments.Add(new Departament
+            {
+                Country = Countries.Belarus,
+                Name = "SomeName",
+                ParentId = null
+            });
 
-            // Act
-            ViewResult result = controller.Index() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
+            context.SaveChanges();
+            Assert.Fail();
         }
 
         [TestMethod]
