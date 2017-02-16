@@ -195,6 +195,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BaseTree\Nodes\DepartamentNode.cs" />
+    <Compile Include="BaseTree\Nodes\Employee.cs" />
+    <Compile Include="BaseTree\Nodes\EmployeeBuilder.cs" />
+    <Compile Include="BaseTree\TreeCreator.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

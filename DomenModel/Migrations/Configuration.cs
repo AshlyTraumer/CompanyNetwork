@@ -1,9 +1,5 @@
-namespace DomenModel.Migrations
-{
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+namespace DomenModel.Migrations{
+using System.Data.Entity.Migrations;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DomenModel.CompanyContext>
     {

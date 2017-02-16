@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace DomenModel.Enums
+﻿namespace DomenModel.Enums
 {
     public enum Countries
     {
