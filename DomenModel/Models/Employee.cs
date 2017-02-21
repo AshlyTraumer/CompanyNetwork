@@ -17,7 +17,7 @@ namespace DomenModel.Models
         public DateTime? DateOfDismissal { get; set; }
 
         public Language Language { get; set; }
-        public Nationality Nationality { get; set; }
+        public Сitizenship Сitizenship { get; set; }
         public SexOfPerson Sex { get; set; }
 
         public bool IsReadyForMoving { get; set; }
@@ -25,5 +25,8 @@ namespace DomenModel.Models
 
         public Departament Departament { get; set; }
         public int DepartamentId { get; set; }
+
+        
+        
     }
 }

@@ -7,7 +7,9 @@ using DomenModel.Enums;
 using DomenModel.Models;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Xml;
 using CompanyNetwork.BaseTree;
+using CompanyNetwork.Models;
 
 namespace CompanyNetwork.Tests.Controllers
 {
@@ -29,19 +31,24 @@ namespace CompanyNetwork.Tests.Controllers
                 Name = "SomeName",
                 ParentId = null
             };
-            _context.Departaments.Add(root);
+            // _context.Departaments.Add(root);
+            //  _context.SaveChanges();
+            var list = _context.Emloyees.ToList();
+            foreach (var item in list)
+            {
+                item.Сitizenship = (Сitizenship)_random.Next(0, 100);
+            }
             _context.SaveChanges();
-
-            MakeBigData(root, 0);
+           //  MakeBigData(root, 0);
             Assert.Fail();
         }
 
         private void MakeBigData(Departament root, int index)
         {
-            if (index > 10) return;
+            if (index > 20) return;
 
-            var itemDepartament = _random.Next(1, 4);
-            var itemEmployee = _random.Next(1, 30);
+            var itemDepartament = _random.Next(1, 5);
+            var itemEmployee = _random.Next(1, 5);
             List<DomenModel.Models.Employee> employeeList;
 
             for (var i = 1; i <= itemDepartament; i++)
@@ -69,7 +76,7 @@ namespace CompanyNetwork.Tests.Controllers
                         DateOfDismissal = disDate,
                         Salary = _random.Next(100, 2000),
                         Language = (Language)_random.Next(0, 100),
-                        Nationality = (Nationality)_random.Next(0, 100),
+                        Сitizenship = (Сitizenship)_random.Next(0, 100),
                         Sex = (SexOfPerson)_random.Next(0, 2),
                         IsReadyForBusinessTrip = (_random.NextDouble() >= 0.5),
                         IsReadyForMoving = (_random.NextDouble() >= 0.5)
@@ -79,7 +86,7 @@ namespace CompanyNetwork.Tests.Controllers
                 var departament = new Departament
                 {
                     Name = RandomString(8),
-                    Country = (Countries) _random.Next(0, 9),
+                    Country = (Countries)_random.Next(0, 9),
                     ParentId = root.Id,
                     Employees = employeeList
                 };
@@ -104,7 +111,7 @@ namespace CompanyNetwork.Tests.Controllers
         {
             var range = to - from;
 
-            var randTimeSpan = new TimeSpan((long) (_random.NextDouble() * range.Ticks));
+            var randTimeSpan = new TimeSpan((long)(_random.NextDouble() * range.Ticks));
 
             return from + randTimeSpan;
         }
@@ -114,6 +121,7 @@ namespace CompanyNetwork.Tests.Controllers
         {
             var watch = Stopwatch.StartNew();
             var list = _context.Departaments.Include(q => q.Employees).ToList();
+           // var list = _context.Departaments.First(q => q.Id == 2);
             watch.Stop();
             var time = watch.ElapsedMilliseconds;
 
@@ -121,11 +129,41 @@ namespace CompanyNetwork.Tests.Controllers
             var node = TreeCreator.MakeTree(list);
             watch.Stop();
             var timeBuilding = watch.ElapsedMilliseconds;
+            var timeBuildingTicks = watch.ElapsedTicks;
 
-            throw new AccessViolationException($"Time Select:  {time} Length List: {list.Count} \n Time TreeBuilding: {timeBuilding}");
+
+            watch = Stopwatch.StartNew();
+            var nodel = node
+               .GetNodes
+               .OrderByDescending(q => q.EmployeeCount)
+               .ThenByDescending(q => q.DepartamentCount)
+              // .Take(20)
+               .Select(q => new
+               {
+                   q.Id,
+                   q.Name,
+                   q.DepartamentCount,
+                   q.EmployeeCount
+               })
+               .ToList();
+            watch.Stop();
+            var timeList = watch.ElapsedMilliseconds;
+
+            throw new AccessViolationException($"Time Select:  {time} Length List: {list.Count} \n Time TreeBuilding: ");
         }
 
+        [TestMethod]
+        public void Chart()
+        {
+            var model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees).ToList());
 
+            var node46 = model.GetById(46);
+            var nodeAge = node46.AverageEmployeeAge;
+
+           // node46.MakeChart();
+          // var chartModel = node46.BuildChart;
+            Assert.Fail();
+        }
     }
 }
 

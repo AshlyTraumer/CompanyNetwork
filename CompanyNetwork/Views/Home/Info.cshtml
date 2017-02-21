@@ -1,0 +1,52 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<CompanyNetwork.Models.TableViewModel>
+@{
+    ViewBag.Title = "Info";
+}
+<link href="@Url.Content("/Content/PagedList.css")" rel="stylesheet"
+      type="text/css" />
+
+<h2>Info</h2>
+<table class="table">
+    <th>
+        <td width="250px;">Name</td>
+        <td>Salary</td>
+        <td>DateOfBirth</td>
+        <td>Employment</td>
+        <td>Dismissal</td>
+        <td>Languages</td>
+        <td width="10px;">Сitizenship</td>
+        <td>Sex</td>
+        <td>Moving</td>
+        <td>BusinessTrip</td>
+        <td>DepartamentTitle</td>
+    </th>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Fio</td>
+            <td>@item.Salary</td>
+            <td>@item.DateOfBirth</td>
+            <td>@item.DateOfEmployment</td>
+            <td>@item.DateOfDismissal</td>
+            <td>@item.Language</td>
+            <td>@item.Сitizenship</td>
+            <td>@item.Sex</td>
+            <td>@item.IsReadyForMoving</td>
+            <td>@item.IsReadyForBusinessTrip</td>
+            <td>@item.DepartamentTitle</td>
+        </tr>
+    }
+</table>
+<div style="text-align: center;">
+          @Html.PagedListPager(Model, p => Url.Action("Info", new { page = p}),
+           new PagedListRenderOptions
+  {
+      LinkToFirstPageFormat = "<<",
+                    LinkToPreviousPageFormat = "Previous",
+                    LinkToNextPageFormat = "Next",
+                    LinkToLastPageFormat = ">>"
+  })
+   
+</div>

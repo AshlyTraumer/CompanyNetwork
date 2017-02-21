@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyNetwork.Tests", "Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomenModel", "DomenModel\DomenModel.csproj", "{DA118FAF-7363-4F6F-92FF-D26353E949CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyNetworkTests1", "CompanyNetworkTests1\CompanyNetworkTests1.csproj", "{2A71101D-55D0-4217-A8A6-EC31FBBE854C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DA118FAF-7363-4F6F-92FF-D26353E949CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA118FAF-7363-4F6F-92FF-D26353E949CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA118FAF-7363-4F6F-92FF-D26353E949CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A71101D-55D0-4217-A8A6-EC31FBBE854C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A71101D-55D0-4217-A8A6-EC31FBBE854C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A71101D-55D0-4217-A8A6-EC31FBBE854C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A71101D-55D0-4217-A8A6-EC31FBBE854C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

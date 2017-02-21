@@ -54,11 +54,15 @@
     <Compile Include="Config\EmployeeConfiguration.cs" />
     <Compile Include="Enums\Countries.cs" />
     <Compile Include="Enums\Language.cs" />
-    <Compile Include="Enums\Nationality.cs" />
+    <Compile Include="Enums\Сitizenship.cs" />
     <Compile Include="Enums\SexOfPerson.cs" />
     <Compile Include="Migrations\201702151210421_Create.cs" />
     <Compile Include="Migrations\201702151210421_Create.Designer.cs">
       <DependentUpon>201702151210421_Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702210907296_Migra.cs" />
+    <Compile Include="Migrations\201702210907296_Migra.Designer.cs">
+      <DependentUpon>201702210907296_Migra.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Departament.cs" />
@@ -72,6 +76,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702151210421_Create.resx">
       <DependentUpon>201702151210421_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702210907296_Migra.resx">
+      <DependentUpon>201702210907296_Migra.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

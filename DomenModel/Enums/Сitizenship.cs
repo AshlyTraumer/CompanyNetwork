@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace DomenModel.Enums
 {
-    public enum Nationality
+    [Flags]
+    public enum Сitizenship
     {
         [Description("Albanians")]
         Albanians = 1,

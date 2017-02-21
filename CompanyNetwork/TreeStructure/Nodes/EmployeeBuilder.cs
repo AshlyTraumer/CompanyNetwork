@@ -53,9 +53,9 @@ namespace CompanyNetwork.BaseTree
             return this;
         }
 
-        public EmployeeBuilder SetNationality(Nationality nationality)
+        public EmployeeBuilder SetNationality(Сitizenship citizenship)
         {
-            _employee.Nationality = nationality;
+            _employee.Сitizenship = citizenship;
             return this;
         }
 
