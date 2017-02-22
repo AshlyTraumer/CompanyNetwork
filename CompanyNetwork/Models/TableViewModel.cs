@@ -6,7 +6,9 @@ namespace CompanyNetwork.Models
     public class TableViewModel
     {
         public int Id { get; set; }
-        public string Fio { get; set; }
+        public string FirstName { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
         public int Salary { get; set; }
 
         public DateTime DateOfBirth { get; set; }
@@ -22,5 +24,64 @@ namespace CompanyNetwork.Models
 
         public string DepartamentTitle { get; set; }
 
+        public string Fio
+        {
+            get
+            {
+                return (LastName != null)
+                    ? $"{FirstName} {Name[0]}. {LastName[0]}."
+                    : $"{FirstName} {Name[0]}.";
+            }
+        }
+
+        public string DateOfBirthFormat
+        {
+            get
+            {
+                return DateOfBirth.ToString("g");
+            }
+        }
+
+        public string DateOfEmploymentFormat
+        {
+            get
+            {
+                return DateOfEmployment.ToString("g");
+            }
+        }
+
+        public string DateOfDismissalFormat
+        {
+            get
+            {
+                return (DateOfDismissal == null) 
+                    ? "No details" 
+                    : ((DateTime) DateOfDismissal).ToString("g");
+            }
+        }
+
+        public string LanguageFormat
+        {
+            get
+            {
+                return Language.ToString().Replace(" ", Environment.NewLine);
+            }
+        }
+
+        public string CitizenshipFormat
+        {
+            get
+            {
+                return Сitizenship.ToString().Replace(" ", Environment.NewLine);
+            }
+        }
+
+        public string SexFormat
+        {
+            get
+            {
+                return Sex.ToString();
+            }
+        }
     }
 }

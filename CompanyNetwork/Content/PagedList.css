@@ -164,3 +164,7 @@
   cursor: not-allowed;
   background-color: #ffffff;
 }
+
+input{
+        width: 80px;
+    }

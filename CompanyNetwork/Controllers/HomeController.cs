@@ -66,9 +66,9 @@ namespace CompanyNetwork.Controllers
                     Value = item.Value
                 });
             }
-            
+
             return Json(dict, JsonRequestBehavior.AllowGet);
-           
+
         }
 
         public ActionResult ChartLanguage()
@@ -105,34 +105,78 @@ namespace CompanyNetwork.Controllers
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public ActionResult Info(int page = 1)
         {
             var size = 20;
-           
-            var data = _context.Emloyees
+
+            var data = _context.Emloyees                 
                  .Select(q => new TableViewModel
-                {
-                    Id = q.Id,
-                    Fio = q.FirstName + " " + q.Name.Substring(0,1) + ". " + q.LastName.Substring(0,1) + ".",
-                    Salary = q.Salary,
-                    Language = q.Language,
-                    DateOfEmployment = q.DateOfEmployment,
-                    DateOfDismissal = q.DateOfDismissal,
-                    DateOfBirth = q.DateOfBirth,
-                    Sex = q.Sex,
-                    Сitizenship = q.Сitizenship,
+                 {
+                     Id = q.Id,
+                     FirstName = q.FirstName,
+                     Name = q.Name,
+                     LastName = q.LastName,
+                     Salary = q.Salary,
+                     Language = q.Language,
+                     DateOfEmployment = q.DateOfEmployment,
+                     DateOfDismissal = q.DateOfDismissal,
+                     DateOfBirth = q.DateOfBirth,
+                     Sex = q.Sex,
+                     Сitizenship = q.Сitizenship,
                      IsReadyForBusinessTrip = q.IsReadyForBusinessTrip,
-                    IsReadyForMoving = q.IsReadyForMoving,
-                    DepartamentTitle = q.Departament.Name
-                })
+                     IsReadyForMoving = q.IsReadyForMoving,
+                     DepartamentTitle = q.Departament.Name
+                 })
                 .OrderBy(q => q.Id)
-                .Skip((page-1) * size)
+                .Skip((page - 1) * size)
                 .Take(size)
                 .ToList();
 
-            
-            var model = new StaticPagedList<TableViewModel>(data, page, size, _context.Emloyees.Count());
-            return View(model);
+
+            var viewModel = new StaticPagedList<TableViewModel>(data, page, size, _context.Emloyees.Count());
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Info(FilterModel model)
+        {
+            var size = 20;
+
+            var query = _context.Emloyees
+                 .Select(q => new TableViewModel
+                 {
+                     Id = q.Id,
+                     FirstName = q.FirstName,
+                     Name = q.Name,
+                     LastName = q.LastName,
+                     Salary = q.Salary,
+                     Language = q.Language,
+                     DateOfEmployment = q.DateOfEmployment,
+                     DateOfDismissal = q.DateOfDismissal,
+                     DateOfBirth = q.DateOfBirth,
+                     Sex = q.Sex,
+                     Сitizenship = q.Сitizenship,
+                     IsReadyForBusinessTrip = q.IsReadyForBusinessTrip,
+                     IsReadyForMoving = q.IsReadyForMoving,
+                     DepartamentTitle = q.Departament.Name
+                 });
+
+            var data = model.AddFilters(query).ToList();
+            var sortedData = data.OrderBy(q => q.Id)
+                            .Skip((model.CurrentPage - 1) * size)
+                            .Take(size)
+                            .ToList();
+
+            // var viewModel = new StaticPagedList<TableViewModel>(data, page, size, data.Count);
+            // return PartialView("_TablePartial", viewModel);
+            return Json(new {
+                list = sortedData,
+                pages = (data.Count % size == 0) 
+                    ? data.Count / size 
+                    : data.Count / size + 1,
+                currentPage = model.CurrentPage
+            });
         }
     }
 }

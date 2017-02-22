@@ -1,0 +1,26 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<CompanyNetwork.Models.TableViewModel>
+
+       
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="10%">@item.Id</td>
+                <td>@item.Fio</td>
+                <td >@item.Salary</td>
+                <td>@item.DateOfBirth</td>
+                <td>@item.DateOfEmployment</td>
+                <td>@item.DateOfDismissal</td>
+                <td >@item.Language</td>
+                <td >@item.Сitizenship</td>
+                <td>@item.Sex</td>
+                <td>@item.IsReadyForMoving</td>
+                <td>@item.IsReadyForBusinessTrip</td>
+                <td >@item.DepartamentTitle</td>
+            </tr>
+        }
+ 
+
+
+
+

@@ -1,52 +1,211 @@
-﻿@using PagedList.Mvc
-@model PagedList.IPagedList<CompanyNetwork.Models.TableViewModel>
+﻿@model PagedList.IPagedList<CompanyNetwork.Models.TableViewModel>
 @{
     ViewBag.Title = "Info";
 }
-<link href="@Url.Content("/Content/PagedList.css")" rel="stylesheet"
-      type="text/css" />
+
 
 <h2>Info</h2>
+<input type="button" value="Show" onclick="FilterTable()" />
+
 <table class="table">
-    <th>
-        <td width="250px;">Name</td>
-        <td>Salary</td>
+    <tr>
+        <th>Id</th>
+        <th width="100px;">Name</th>
+        <th width="50px;">Salary</th>
+        <th>DateOfBirth</th>
+        <th>Employment</th>
+        <th>Dismissal</th>
+        <th>Languages</th>
+        <th width="10px;">Сitizenship</th>
+        <th>Sex</th>
+        <th>Moving</th>
+        <th>BusinessTrip</th>
+        <th>DepartamentTitle</th>
+    </tr>
+
+    <tr>
+        <td><input type="text" id="id"></td>
+        <td><input type="text" id="firstName"></td>
+        <td><input type="text" id="salaryFrom"><input type="text" id="salaryTo"></td>
         <td>DateOfBirth</td>
         <td>Employment</td>
-        <td>Dismissal</td>
+        <td>
+            <div class="checkbox">
+                <input type="checkbox" value="false" id="isDismissal">
+            </div>
+        </td>
         <td>Languages</td>
-        <td width="10px;">Сitizenship</td>
+        <td>Сitizenship</td>
         <td>Sex</td>
-        <td>Moving</td>
-        <td>BusinessTrip</td>
-        <td>DepartamentTitle</td>
-    </th>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Id</td>
-            <td>@item.Fio</td>
-            <td>@item.Salary</td>
-            <td>@item.DateOfBirth</td>
-            <td>@item.DateOfEmployment</td>
-            <td>@item.DateOfDismissal</td>
-            <td>@item.Language</td>
-            <td>@item.Сitizenship</td>
-            <td>@item.Sex</td>
-            <td>@item.IsReadyForMoving</td>
-            <td>@item.IsReadyForBusinessTrip</td>
-            <td>@item.DepartamentTitle</td>
-        </tr>
+        <td>
+            <div class="checkbox">
+                <input type="checkbox" value="false" name="isReadyForMoving ">
+            </div>
+        </td>
+        <td>
+            <div class="checkbox">
+                <input type="checkbox" value="false" name="isReadyForBusinessTrip">
+            </div>
+        </td>
+        <td><input type="text" id="departamentTitle"></td>
+    </tr>
+    </table>
+<table id="ajax" class="table"></table>
+<div id="pages"></div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        FilterTable(1)
+    });
+
+    function FilterTable(page) {
+       
+        $.ajax({
+            url: '@Url.Action("Info", "Home")',
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            data:
+                JSON.stringify({
+                    IsDismissal: $("#isDismissal").prop("checked"),
+                    Id: $("#id").val(),
+                    FirstName: $("#firstName").val(),
+                    SalaryFrom: $("#salaryFrom").val(),
+                    SalaryTo: $("#salaryTo").val(),
+                    DepartamentTitle: $("departamentTitle").val(),
+                    IsReadyForMoving: $("isReadyForMoving ").prop("checked"),
+                    IsReadyForBusinessTrip: $("isReadyForBusinessTrip").prop("checked"),
+                    CurrentPage: page
+                }),
+            success: function (data) {
+                var currentPage = data.currentPage;
+                var pages = data.pages;
+                var list = data.list;
+                var user = "";
+                alert(pages + " " + currentPage);
+                for (var i = 0; i < list.length; i++) {
+
+                        user += "<tr><td>";
+                    user += list[i].Id
+                            + "</td><td>"
+                            + list[i].Fio
+                            + "</td><td>"
+                            + list[i].Salary
+                            + "</td><td>"
+                            + list[i].DateOfBirthFormat
+                            + "</td><td>"
+                            + list[i].DateOfEmploymentFormat
+                            + "</td><td>"
+                            + list[i].DateOfDismissalFormat
+                            + "</td><td>"
+                            + list[i].LanguageFormat
+                            + "</td><td>"
+                            + list[i].CitizenshipFormat
+                            + "</td><td>"
+                            + list[i].SexFormat
+                            + "</td><td>"
+                            + list[i].IsReadyForMoving
+                            + "</td><td>"
+                            + list[i].IsReadyForBusinessTrip
+                            + "</td><td>"
+                            + list[i].DepartamentTitle
+                            + "</td></tr>";
+
+
+                        user += "</td></tr>";
+                }
+
+                $("#ajax").html(user);
+
+                var setPages = "";
+                setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' '/>";
+                setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
+                if ((currentPage == 1))
+                {
+                    setPages = "";
+                    setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' style='color: red; font-weight: 600;'/>";
+                    setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
+                }
+                else
+                    if ((currentPage == 2))
+                    {
+                        setPages = "";
+                        setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
+                        setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' style='color: red; font-weight: 600;'/>";
+                        setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
+                    }
+                    else
+                                 
+                        if ((currentPage == 3))
+                        {
+                            setPages = "";
+                            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
+                            setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
+                            setPages += "<input id='second' type='button' value='3' onClick = 'FilterTable(3)' style='color: red; font-weight: 600;'/>";
+                            setPages += "<input id='first' type='button' value='4' onClick = 'FilterTable(4)' />";
+                        }
+                        else
+                            if ((currentPage == 4)) {
+                                setPages = "";
+                                setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
+                                setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
+                                setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
+                                setPages += "<input id='second' type='button' value='4' onClick = 'FilterTable(4)' style='color: red; font-weight: 600;'/>";
+                                setPages += "<input id='first' type='button' value='5' onClick = 'FilterTable(5)' />";
+                            }
+                
+
+                if (currentPage > 4)
+                    setPages += "<input type='button' value='...'/>";
+                if ((currentPage > 4) && (currentPage < pages - 3))
+                {                    
+                    setPages += "<input id='precurrent' type='button' value='"+(currentPage - 1)+"' onClick = 'FilterTable("+(currentPage - 1)+")'/>";
+                    setPages += "<input id='current' type='button' value='" + (currentPage) + "' onClick = 'FilterTable(" + (currentPage) + ")' style='color: red; font-weight: 600;'/>";
+                    setPages += "<input id='postcurrent' type='button' value='" + (currentPage + 1) + "' onClick = 'FilterTable(" + (currentPage + 1) + ")'/>";
+                   
+                }
+                if (currentPage < pages - 3)
+                    setPages += "<input type='button' value='...'/>";
+
+                if ((currentPage == pages - 3)) {
+                    
+                    setPages += "<input id='first' type='button' value='" + (pages - 4) + "' onClick = 'FilterTable(" + (pages - 4) + ")' />";
+                    setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' style='color: red; font-weight: 600;'/>";
+                    setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' />";
+                    setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                    setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
+                }
+                else
+                    if ((currentPage == pages - 2)) {                        
+                        setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' />";
+                        setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' style='color: red; font-weight: 600;'/>";
+                        setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                        setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
+                    }
+                    else
+                        if ((currentPage == pages - 1)) {                            
+                            setPages += "<input  type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' '/>";
+                            setPages += "<input  type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' style='color: red; font-weight: 600;'/>";
+                            setPages += "<input  type='button' value='" + pages + "' onClick = 'FilterTable(" + pages + ")' />";
+                        }
+                        else
+                            if ((currentPage == pages)) {                                
+                                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' style='color: red; font-weight: 600;'/>";
+                            }
+                            else
+                            {
+                                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")'/>";
+                            }
+
+                $("#pages").html(setPages);
+            }
+        });
     }
-</table>
-<div style="text-align: center;">
-          @Html.PagedListPager(Model, p => Url.Action("Info", new { page = p}),
-           new PagedListRenderOptions
-  {
-      LinkToFirstPageFormat = "<<",
-                    LinkToPreviousPageFormat = "Previous",
-                    LinkToNextPageFormat = "Next",
-                    LinkToLastPageFormat = ">>"
-  })
-   
-</div>
+
+    
+</script>

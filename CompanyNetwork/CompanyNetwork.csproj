@@ -207,6 +207,7 @@
     <Compile Include="Models\ChartViewModel.cs" />
     <Compile Include="Models\DepartamentModel.cs" />
     <Compile Include="Models\DictionaryModel.cs" />
+    <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\TableViewModel.cs" />
     <Compile Include="TreeStructure\AgeGroup.cs" />
     <Compile Include="TreeStructure\ExperienceGroup.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Info.cshtml" />
+    <Content Include="Views\Shared\_TablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
