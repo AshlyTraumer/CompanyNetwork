@@ -19,6 +19,9 @@ namespace CompanyNetwork
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css",
+                        "~/Content/jquery-ui.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                      // "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",

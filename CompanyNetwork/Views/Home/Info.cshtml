@@ -1,56 +1,72 @@
 ﻿@model PagedList.IPagedList<CompanyNetwork.Models.TableViewModel>
-@{
-    ViewBag.Title = "Info";
-}
 
+@{
+    ViewBag.Title = "Info"; 
+}
+@Scripts.Render("~/bundles/jqueryui") 
 
 <h2>Info</h2>
-<input type="button" value="Show" onclick="FilterTable()" />
+<input type="button" value="Show" onclick="FilterTable(1)" />
 
 <table class="table">
-    <tr>
-        <th>Id</th>
-        <th width="100px;">Name</th>
-        <th width="50px;">Salary</th>
-        <th>DateOfBirth</th>
-        <th>Employment</th>
-        <th>Dismissal</th>
-        <th>Languages</th>
-        <th width="10px;">Сitizenship</th>
-        <th>Sex</th>
-        <th>Moving</th>
-        <th>BusinessTrip</th>
-        <th>DepartamentTitle</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th >Name</th>
+            <th >Salary</th>
+            <th>DateOfBirth</th>
+            <th>Employment</th>
+            <th>Dismissal</th>
+            <th>Languages</th>
+            <th >Сitizenship</th>
+            <th>Sex</th>
+            <th>Moving</th>
+            <th>BusinessTrip</th>
+            <th>DepartamentTitle</th>
+        </tr>
 
-    <tr>
-        <td><input type="text" id="id"></td>
-        <td><input type="text" id="firstName"></td>
-        <td><input type="text" id="salaryFrom"><input type="text" id="salaryTo"></td>
-        <td>DateOfBirth</td>
-        <td>Employment</td>
-        <td>
-            <div class="checkbox">
-                <input type="checkbox" value="false" id="isDismissal">
-            </div>
-        </td>
-        <td>Languages</td>
-        <td>Сitizenship</td>
-        <td>Sex</td>
-        <td>
-            <div class="checkbox">
-                <input type="checkbox" value="false" name="isReadyForMoving ">
-            </div>
-        </td>
-        <td>
-            <div class="checkbox">
-                <input type="checkbox" value="false" name="isReadyForBusinessTrip">
-            </div>
-        </td>
-        <td><input type="text" id="departamentTitle"></td>
-    </tr>
-    </table>
-<table id="ajax" class="table"></table>
+        <tr>
+            <td><input type="text" id="id"></td>
+            <td><input type="text" id="firstName"></td>
+            <td><input type="text" id="salaryFrom"><input type="text" id="salaryTo"></td>
+            <td><input type="date" id="datepicker1" /><input type="date" id="datepicker2" /></td>
+            <td><input type="date" id="datepicker3" /><input type="date" id="datepicker4" /></td>
+            <td><input type="checkbox" value="false" id="isDismissal"></td>
+            <td>
+                <select id="language">
+                    <option value="-1"></option>
+                    @for (var index = 0; index < ViewBag.Language.Count; index++)
+                    {
+                        <option value="@Math.Pow(2,index)">@ViewBag.Language[index]</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <select id="citizenship">
+                    <option value="-1"></option>
+                    @for (var index = 0; index < ViewBag.Сitizenship.Count; index++)
+                    {
+                        <option value="@Math.Pow(2,index)">@ViewBag.Сitizenship[index]</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <select id="sex">
+                    <option value="-1"></option>
+                    @for (var index = 0; index< ViewBag.Sex.Count; index++)
+                    {
+                        <option value="@index">@ViewBag.Sex[index]</option>
+                       
+                    }
+                </select>
+            </td>
+            <td><input type="checkbox" value="false" id="isReadyForMoving"></td>
+            <td><input type="checkbox" value="false" id="isReadyForBusinessTrip"></td>
+            <td><input type="text" id="departamentTitle"></td>
+        </tr>
+    </thead>
+    <tbody id="ajax" class="table"></tbody>
+</table>
 <div id="pages"></div>
 
 
@@ -60,10 +76,12 @@
 <script>
     $(document).ready(function () {
         FilterTable(1)
+        $("#datepicker1").datepicker();
+        $("#datepicker2").datepicker();
     });
 
     function FilterTable(page) {
-       
+
         $.ajax({
             url: '@Url.Action("Info", "Home")',
             type: 'POST',
@@ -75,9 +93,12 @@
                     FirstName: $("#firstName").val(),
                     SalaryFrom: $("#salaryFrom").val(),
                     SalaryTo: $("#salaryTo").val(),
-                    DepartamentTitle: $("departamentTitle").val(),
-                    IsReadyForMoving: $("isReadyForMoving ").prop("checked"),
-                    IsReadyForBusinessTrip: $("isReadyForBusinessTrip").prop("checked"),
+                    DepartamentTitle: $("#departamentTitle").val(),
+                    IsReadyForMoving: $("#isReadyForMoving").prop("checked"),
+                    IsReadyForBusinessTrip: $("#isReadyForBusinessTrip").prop("checked"),
+                    Language: $("#language").val(),
+                    Sex: $("#sex").val(),
+                    Сitizenship: $("#citizenship").val(),
                     CurrentPage: page
                 }),
             success: function (data) {
@@ -85,10 +106,10 @@
                 var pages = data.pages;
                 var list = data.list;
                 var user = "";
-                alert(pages + " " + currentPage);
+                if (pages != 0) {
                 for (var i = 0; i < list.length; i++) {
 
-                        user += "<tr><td>";
+                    user += "<tr><td>";
                     user += list[i].Id
                             + "</td><td>"
                             + list[i].Fio
@@ -107,105 +128,118 @@
                             + "</td><td>"
                             + list[i].SexFormat
                             + "</td><td>"
-                            + list[i].IsReadyForMoving
+                            + list[i].IsReadyForMovingFormat
                             + "</td><td>"
-                            + list[i].IsReadyForBusinessTrip
+                            + list[i].IsReadyForBusinessTripFormat
                             + "</td><td>"
                             + list[i].DepartamentTitle
                             + "</td></tr>";
 
 
-                        user += "</td></tr>";
+                    user += "</td></tr>";
                 }
 
-                $("#ajax").html(user);
-
-                var setPages = "";
-                setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' '/>";
-                setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
-                if ((currentPage == 1))
+                $("#ajax").html(user);                
+                    var setPages = Pager(currentPage, pages);
+                    $("#pages").html(setPages);
+                }
+                else
                 {
-                    setPages = "";
-                    setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' style='color: red; font-weight: 600;'/>";
-                    setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
+                    $("#ajax").html("");                
+                    $("#pages").html("");
                 }
-                else
-                    if ((currentPage == 2))
-                    {
-                        setPages = "";
-                        setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
-                        setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' style='color: red; font-weight: 600;'/>";
-                        setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
-                    }
-                    else
-                                 
-                        if ((currentPage == 3))
-                        {
-                            setPages = "";
-                            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
-                            setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
-                            setPages += "<input id='second' type='button' value='3' onClick = 'FilterTable(3)' style='color: red; font-weight: 600;'/>";
-                            setPages += "<input id='first' type='button' value='4' onClick = 'FilterTable(4)' />";
-                        }
-                        else
-                            if ((currentPage == 4)) {
-                                setPages = "";
-                                setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
-                                setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
-                                setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
-                                setPages += "<input id='second' type='button' value='4' onClick = 'FilterTable(4)' style='color: red; font-weight: 600;'/>";
-                                setPages += "<input id='first' type='button' value='5' onClick = 'FilterTable(5)' />";
-                            }
-                
-
-                if (currentPage > 4)
-                    setPages += "<input type='button' value='...'/>";
-                if ((currentPage > 4) && (currentPage < pages - 3))
-                {                    
-                    setPages += "<input id='precurrent' type='button' value='"+(currentPage - 1)+"' onClick = 'FilterTable("+(currentPage - 1)+")'/>";
-                    setPages += "<input id='current' type='button' value='" + (currentPage) + "' onClick = 'FilterTable(" + (currentPage) + ")' style='color: red; font-weight: 600;'/>";
-                    setPages += "<input id='postcurrent' type='button' value='" + (currentPage + 1) + "' onClick = 'FilterTable(" + (currentPage + 1) + ")'/>";
-                   
-                }
-                if (currentPage < pages - 3)
-                    setPages += "<input type='button' value='...'/>";
-
-                if ((currentPage == pages - 3)) {
-                    
-                    setPages += "<input id='first' type='button' value='" + (pages - 4) + "' onClick = 'FilterTable(" + (pages - 4) + ")' />";
-                    setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' style='color: red; font-weight: 600;'/>";
-                    setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' />";
-                    setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                    setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
-                }
-                else
-                    if ((currentPage == pages - 2)) {                        
-                        setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' />";
-                        setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' style='color: red; font-weight: 600;'/>";
-                        setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                        setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
-                    }
-                    else
-                        if ((currentPage == pages - 1)) {                            
-                            setPages += "<input  type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' '/>";
-                            setPages += "<input  type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' style='color: red; font-weight: 600;'/>";
-                            setPages += "<input  type='button' value='" + pages + "' onClick = 'FilterTable(" + pages + ")' />";
-                        }
-                        else
-                            if ((currentPage == pages)) {                                
-                                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' style='color: red; font-weight: 600;'/>";
-                            }
-                            else
-                            {
-                                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")'/>";
-                            }
-
-                $("#pages").html(setPages);
             }
         });
     }
 
-    
+    function Pager(currentPage, pages) {
+
+        var setPages = " ";       
+
+        if (pages == 1) {
+            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' style='color: red; font-weight: 600;'/>";
+        }
+        else {
+
+            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' '/>";
+            setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
+            if ((currentPage == 1)) {
+                setPages = "";
+                setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' style='color: red; font-weight: 600;'/>";
+                setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
+            }
+            else
+                if ((currentPage == 2)) {
+                    setPages = "";
+                    setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
+                    setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' style='color: red; font-weight: 600;'/>";
+                    setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
+                }
+                else
+
+                    if ((currentPage == 3)) {
+                        setPages = "";
+                        setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
+                        setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
+                        setPages += "<input id='second' type='button' value='3' onClick = 'FilterTable(3)' style='color: red; font-weight: 600;'/>";
+                        setPages += "<input id='first' type='button' value='4' onClick = 'FilterTable(4)' />";
+                    }
+                    else
+                        if ((currentPage == 4)) {
+                            setPages = "";
+                            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
+                            setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
+                            setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
+                            setPages += "<input id='second' type='button' value='4' onClick = 'FilterTable(4)' style='color: red; font-weight: 600;'/>";
+                            setPages += "<input id='first' type='button' value='5' onClick = 'FilterTable(5)' />";
+                        }
+
+
+            if (currentPage > 4)
+                setPages += "<input type='button' value='...'/>";
+            if ((currentPage > 4) && (currentPage < pages - 3)) {
+                setPages += "<input id='precurrent' type='button' value='" + (currentPage - 1) + "' onClick = 'FilterTable(" + (currentPage - 1) + ")'/>";
+                setPages += "<input id='current' type='button' value='" + (currentPage) + "' onClick = 'FilterTable(" + (currentPage) + ")' style='color: red; font-weight: 600;'/>";
+                setPages += "<input id='postcurrent' type='button' value='" + (currentPage + 1) + "' onClick = 'FilterTable(" + (currentPage + 1) + ")'/>";
+
+            }
+            if ((currentPage < pages - 3) && (pages > 4))
+                setPages += "<input type='button' value='...'/>";
+
+            if ((currentPage == pages - 3)) {
+
+                setPages += "<input id='first' type='button' value='" + (pages - 4) + "' onClick = 'FilterTable(" + (pages - 4) + ")' />";
+                setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' style='color: red; font-weight: 600;'/>";
+                setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' />";
+                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
+            }
+            else
+                if ((currentPage == pages - 2)) {
+                    setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' />";
+                    setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' style='color: red; font-weight: 600;'/>";
+                    setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                    setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
+                }
+                else
+                    if ((currentPage == pages - 1)) {
+                        setPages += "<input  type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' '/>";
+                        setPages += "<input  type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' style='color: red; font-weight: 600;'/>";
+                        setPages += "<input  type='button' value='" + pages + "' onClick = 'FilterTable(" + pages + ")' />";
+                    }
+                    else
+                        if ((currentPage == pages)) {
+                            setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                            setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' style='color: red; font-weight: 600;'/>";
+                        }
+                        else {
+                            if (pages > 2) {
+                                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
+                                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")'/>";
+
+                            }
+                        }
+        }
+        return setPages;
+    }
 </script>

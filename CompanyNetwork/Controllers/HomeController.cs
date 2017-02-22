@@ -106,36 +106,31 @@ namespace CompanyNetwork.Controllers
         }
 
         [HttpGet]
-        public ActionResult Info(int page = 1)
+        public ActionResult Info()
         {
-            var size = 20;
+            var enumList = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(SexOfPerson)))
+            {
+                enumList.Add(EnumDescription.GetDescription((SexOfPerson) item));
+            }
+            ViewBag.Sex = enumList;
 
-            var data = _context.Emloyees                 
-                 .Select(q => new TableViewModel
-                 {
-                     Id = q.Id,
-                     FirstName = q.FirstName,
-                     Name = q.Name,
-                     LastName = q.LastName,
-                     Salary = q.Salary,
-                     Language = q.Language,
-                     DateOfEmployment = q.DateOfEmployment,
-                     DateOfDismissal = q.DateOfDismissal,
-                     DateOfBirth = q.DateOfBirth,
-                     Sex = q.Sex,
-                     Сitizenship = q.Сitizenship,
-                     IsReadyForBusinessTrip = q.IsReadyForBusinessTrip,
-                     IsReadyForMoving = q.IsReadyForMoving,
-                     DepartamentTitle = q.Departament.Name
-                 })
-                .OrderBy(q => q.Id)
-                .Skip((page - 1) * size)
-                .Take(size)
-                .ToList();
+            enumList = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(Language)))
+            {
+                enumList.Add(EnumDescription.GetDescription((Language)item));
+            }
+            ViewBag.Language = enumList;
 
 
-            var viewModel = new StaticPagedList<TableViewModel>(data, page, size, _context.Emloyees.Count());
-            return View(viewModel);
+            enumList = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(Сitizenship)))
+            {
+                enumList.Add(EnumDescription.GetDescription((Сitizenship)item));
+            }
+            ViewBag.Сitizenship = enumList;
+
+            return View();
         }
 
         [HttpPost]
@@ -162,19 +157,22 @@ namespace CompanyNetwork.Controllers
                      DepartamentTitle = q.Departament.Name
                  });
 
-            var data = model.AddFilters(query).ToList();
-            var sortedData = data.OrderBy(q => q.Id)
+            foreach(var filter in model.Filters())
+            {
+                query = query.Where(filter);
+            }
+
+            var count = query.Count();
+            var sortedData = query.OrderBy(q => q.Id)
                             .Skip((model.CurrentPage - 1) * size)
                             .Take(size)
                             .ToList();
-
-            // var viewModel = new StaticPagedList<TableViewModel>(data, page, size, data.Count);
-            // return PartialView("_TablePartial", viewModel);
+                       
             return Json(new {
                 list = sortedData,
-                pages = (data.Count % size == 0) 
-                    ? data.Count / size 
-                    : data.Count / size + 1,
+                pages = (count % size == 0) 
+                    ? count / size 
+                    : count / size + 1,
                 currentPage = model.CurrentPage
             });
         }

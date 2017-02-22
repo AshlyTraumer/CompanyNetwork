@@ -1,5 +1,10 @@
 ﻿using System;
 using DomenModel.Enums;
+using CompanyNetwork.TreeStructure;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 
 namespace CompanyNetwork.Models
 {
@@ -23,6 +28,46 @@ namespace CompanyNetwork.Models
         public bool IsReadyForBusinessTrip { get; set; }
 
         public string DepartamentTitle { get; set; }
+
+        public string SexDescription
+        {
+            get
+            {
+                return Sex.GetType()
+                .GetMember(Sex.ToString())
+                .First()
+                .GetCustomAttribute<DescriptionAttribute>()
+                .Description;
+            }
+        }
+
+        public List<string> LanguageDescriptions
+        {
+            get
+            {
+                var array = Flags.GetFlags(Language);
+                var arrayDescr = new List<string>();
+                foreach (var item in array)
+                {
+                    arrayDescr.Add(EnumDescription.GetDescription(item));
+                }
+                return arrayDescr;
+            }
+        }
+
+        public List<string> СitizenshipDescription
+        {
+            get
+            {
+                var array = Flags.GetFlags(Сitizenship);
+                var arrayDescr = new List<string>();
+                foreach (var item in array)
+                {
+                    arrayDescr.Add(EnumDescription.GetDescription(item));
+                }
+                return arrayDescr;
+            }
+        }
 
         public string Fio
         {
@@ -54,9 +99,9 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                return (DateOfDismissal == null) 
-                    ? "No details" 
-                    : ((DateTime) DateOfDismissal).ToString("g");
+                return (DateOfDismissal == null)
+                    ? "No details"
+                    : ((DateTime)DateOfDismissal).ToString("g");
             }
         }
 
@@ -81,6 +126,22 @@ namespace CompanyNetwork.Models
             get
             {
                 return Sex.ToString();
+            }
+        }
+
+        public string IsReadyForMovingFormat
+        {
+            get
+            {
+                return (IsReadyForMoving) ? "Yes" : "No";
+            }
+        }
+
+        public string IsReadyForBusinessTripFormat
+        {
+            get
+            {
+                return (IsReadyForBusinessTrip) ? "Yes" : "No";
             }
         }
     }
