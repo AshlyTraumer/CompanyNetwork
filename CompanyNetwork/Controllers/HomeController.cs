@@ -157,24 +157,53 @@ namespace CompanyNetwork.Controllers
                      DepartamentTitle = q.Departament.Name
                  });
 
-            foreach(var filter in model.Filters())
+            foreach(var filter in model.GetFilters())
             {
                 query = query.Where(filter);
             }
 
+            var param = "Id";
+            if (model.SortId != null)
+                param = model.SortId;
+            
+
             var count = query.Count();
-            var sortedData = query.OrderBy(q => q.Id)
-                            .Skip((model.CurrentPage - 1) * size)
+            var sortedData = query.OrderBy(param, false)                
+                    .Skip((model.CurrentPage - 1) * size)
                             .Take(size)
                             .ToList();
-                       
+
+            var pages = (count % size == 0) ? count / size : count / size + 1;       
+
             return Json(new {
                 list = sortedData,
-                pages = (count % size == 0) 
-                    ? count / size 
-                    : count / size + 1,
-                currentPage = model.CurrentPage
+                pages = pages,
+                currentPage = model.CurrentPage,
+                paginator = GetPagesNums(model.CurrentPage, pages),
+                sortColumn = param
             });
+        }
+
+        private HashSet<int> GetPagesNums(int currentPage, int pages)
+        {
+            var numList = new HashSet<int>();
+            numList.Add(1);
+            numList.Add(2);
+            if (currentPage - 1 > 3)
+                numList.Add(-1);
+            if (currentPage != 1)
+                numList.Add(currentPage - 1);
+            numList.Add(currentPage);
+
+            if (currentPage != pages)
+                numList.Add(currentPage + 1);
+
+            if (currentPage + 1 < pages - 2)
+                numList.Add(-2);
+
+            numList.Add(pages - 1);
+            numList.Add(pages);
+            return numList;
         }
     }
 }

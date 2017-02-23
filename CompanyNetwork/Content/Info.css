@@ -1,0 +1,9 @@
+﻿body {
+}
+table{
+    border: 10px solid #000;
+}
+
+th.id {
+    width: 5%;
+}

@@ -20,17 +20,22 @@ namespace CompanyNetwork
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css",
-                        "~/Content/jquery-ui.css"));
+                        "~/Content/jquery-ui.css",
+                        "~/Content/Info.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                      // "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                    //  "~/Scripts/Chart.js",
+                      "~/Content/paginator/jquery.simplePagination.js",
+                      //  "~/Scripts/Chart.js",
                       "~/Scripts/canvasjs.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/paginator/simplePagination.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/paginator"));
         }
     }
 }

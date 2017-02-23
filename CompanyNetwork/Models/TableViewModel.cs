@@ -144,5 +144,8 @@ namespace CompanyNetwork.Models
                 return (IsReadyForBusinessTrip) ? "Yes" : "No";
             }
         }
+
+        public string SortId { get; set; } = "Id";
+        
     }
 }

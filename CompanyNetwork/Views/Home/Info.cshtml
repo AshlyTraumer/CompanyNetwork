@@ -1,39 +1,86 @@
-﻿@model PagedList.IPagedList<CompanyNetwork.Models.TableViewModel>
+﻿
 
 @{
-    ViewBag.Title = "Info"; 
+    ViewBag.Title = "Info";
 }
-@Scripts.Render("~/bundles/jqueryui") 
+
 
 <h2>Info</h2>
-<input type="button" value="Show" onclick="FilterTable(1)" />
+<div id="button">
+    <input type="button" value="Show" onclick="FilterTable(1)" />
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+@Styles.Render("~/Content/paginator")
 
-<table class="table">
+
+
+
+<table class="table" style="table-layout: fixed">
     <thead>
         <tr>
-            <th>Id</th>
-            <th >Name</th>
-            <th >Salary</th>
-            <th>DateOfBirth</th>
-            <th>Employment</th>
-            <th>Dismissal</th>
-            <th>Languages</th>
-            <th >Сitizenship</th>
-            <th>Sex</th>
-            <th>Moving</th>
-            <th>BusinessTrip</th>
-            <th>DepartamentTitle</th>
+            <th width="5%" onclick="FilterTable(1, 'Id')">
+                <a href="#">Id</a>
+            </th>
+            <th width="8%" onclick="FilterTable(1, 'FirstName')">
+                <a href="#">Name</a>
+            </th>
+            <th width="6%" onclick="FilterTable(1, 'Salary')">
+                <a href="#">Salary</a>
+            </th>
+            <th width="13%" onclick="FilterTable(1, 'DateOfBirth')">
+                <a href="#">DateOfBirth</a>
+            </th>
+            <th width="13%" onclick="FilterTable(1, 'DateOfEmployment')">
+                <a href="#">Employment</a>
+            </th>
+            <th width="10%">
+                Working / All
+            </th>
+            <th width="8%" onclick="FilterTable(1, 'Language')">
+                <a href="#">Languages</a>
+            </th>
+            <th width="12%" onclick="FilterTable(1, 'Citizenship')">
+                <a href="#">Сitizenship</a>
+            </th>
+            <th width="8%" onclick="FilterTable(1, 'Sex')">
+                Sex
+            </th>
+            <th width="5%">
+                Moving
+            </th>
+            <th width="6%">
+                BusTrip
+            </th>
+            <th width="8%" onclick="FilterTable(1, 'DepartamentTitle')">
+                <a href="#">DepartamentTitle</a>
+            </th>
         </tr>
 
         <tr>
-            <td><input type="text" id="id"></td>
-            <td><input type="text" id="firstName"></td>
-            <td><input type="text" id="salaryFrom"><input type="text" id="salaryTo"></td>
-            <td><input type="date" id="datepicker1" /><input type="date" id="datepicker2" /></td>
-            <td><input type="date" id="datepicker3" /><input type="date" id="datepicker4" /></td>
-            <td><input type="checkbox" value="false" id="isDismissal"></td>
             <td>
-                <select id="language">
+                <input type="text" id="id" class="inp">
+            </td>
+            <td>
+                <input type="text" id="firstName" class="inp">
+            </td>
+            <td>
+                <input type="text" id="salaryFrom" class="inp">
+                <input type="text" id="salaryTo" class="inp">
+            </td>
+            <td>
+                <input type="date" id="datepicker1" class="inp" />
+                <br />
+                <input type="date" id="datepicker2" class="inp" />
+            </td>
+            <td>
+                <input type="date" id="datepicker3" class="inp" />
+                <input type="date" id="datepicker4" class="inp" />
+            </td>
+            <td>
+                <input type="checkbox" value="false" id="isDismissal" class="inp">
+            </td>
+            <td>
+                <select id="language" class="inp">
                     <option value="-1"></option>
                     @for (var index = 0; index < ViewBag.Language.Count; index++)
                     {
@@ -42,7 +89,7 @@
                 </select>
             </td>
             <td>
-                <select id="citizenship">
+                <select id="citizenship" class="inp">
                     <option value="-1"></option>
                     @for (var index = 0; index < ViewBag.Сitizenship.Count; index++)
                     {
@@ -51,36 +98,37 @@
                 </select>
             </td>
             <td>
-                <select id="sex">
+                <select id="sex" class="inp">
                     <option value="-1"></option>
-                    @for (var index = 0; index< ViewBag.Sex.Count; index++)
+                    @for (var index = 0; index < ViewBag.Sex.Count; index++)
                     {
                         <option value="@index">@ViewBag.Sex[index]</option>
-                       
+
                     }
                 </select>
             </td>
-            <td><input type="checkbox" value="false" id="isReadyForMoving"></td>
-            <td><input type="checkbox" value="false" id="isReadyForBusinessTrip"></td>
-            <td><input type="text" id="departamentTitle"></td>
+            <td>
+                <input type="checkbox" value="false" id="isReadyForMoving" class="inp">
+            </td>
+            <td>
+                <input type="checkbox" value="false" id="isReadyForBusinessTrip" class="inp">
+            </td>
+            <td>
+                <input type="text" id="departamentTitle" class="inp">
+            </td>
         </tr>
     </thead>
     <tbody id="ajax" class="table"></tbody>
 </table>
+
 <div id="pages"></div>
-
-
-
-
 
 <script>
     $(document).ready(function () {
         FilterTable(1)
-        $("#datepicker1").datepicker();
-        $("#datepicker2").datepicker();
     });
 
-    function FilterTable(page) {
+    function FilterTable(page, id) {
 
         $.ajax({
             url: '@Url.Action("Info", "Home")',
@@ -98,148 +146,85 @@
                     IsReadyForBusinessTrip: $("#isReadyForBusinessTrip").prop("checked"),
                     Language: $("#language").val(),
                     Sex: $("#sex").val(),
+                    DateOfBirthFrom: $("#datepicker1").val(),
+                    DateOfBirthTo: $("#datepicker2").val(),
+                    DateOfEmploymentFrom: $("#datepicker3").val(),
+                    DateOfEmploymentTo: $("#datepicker4").val(),
                     Сitizenship: $("#citizenship").val(),
-                    CurrentPage: page
+                    CurrentPage: page,
+                    SortId: id
                 }),
             success: function (data) {
-                var currentPage = data.currentPage;
-                var pages = data.pages;
-                var list = data.list;
-                var user = "";
-                if (pages != 0) {
-                for (var i = 0; i < list.length; i++) {
-
-                    user += "<tr><td>";
-                    user += list[i].Id
-                            + "</td><td>"
-                            + list[i].Fio
-                            + "</td><td>"
-                            + list[i].Salary
-                            + "</td><td>"
-                            + list[i].DateOfBirthFormat
-                            + "</td><td>"
-                            + list[i].DateOfEmploymentFormat
-                            + "</td><td>"
-                            + list[i].DateOfDismissalFormat
-                            + "</td><td>"
-                            + list[i].LanguageFormat
-                            + "</td><td>"
-                            + list[i].CitizenshipFormat
-                            + "</td><td>"
-                            + list[i].SexFormat
-                            + "</td><td>"
-                            + list[i].IsReadyForMovingFormat
-                            + "</td><td>"
-                            + list[i].IsReadyForBusinessTripFormat
-                            + "</td><td>"
-                            + list[i].DepartamentTitle
-                            + "</td></tr>";
-
-
-                    user += "</td></tr>";
-                }
-
-                $("#ajax").html(user);                
-                    var setPages = Pager(currentPage, pages);
-                    $("#pages").html(setPages);
-                }
-                else
-                {
-                    $("#ajax").html("");                
-                    $("#pages").html("");
-                }
+                Result(data);
             }
         });
     }
 
-    function Pager(currentPage, pages) {
-
-        var setPages = " ";       
-
-        if (pages == 1) {
-            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' style='color: red; font-weight: 600;'/>";
-        }
-        else {
-
-            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' '/>";
-            setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
-            if ((currentPage == 1)) {
-                setPages = "";
-                setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' style='color: red; font-weight: 600;'/>";
-                setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' />";
-            }
-            else
-                if ((currentPage == 2)) {
-                    setPages = "";
-                    setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
-                    setPages += "<input id='second' type='button' value='2' onClick = 'FilterTable(2)' style='color: red; font-weight: 600;'/>";
-                    setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
-                }
-                else
-
-                    if ((currentPage == 3)) {
-                        setPages = "";
-                        setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
-                        setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
-                        setPages += "<input id='second' type='button' value='3' onClick = 'FilterTable(3)' style='color: red; font-weight: 600;'/>";
-                        setPages += "<input id='first' type='button' value='4' onClick = 'FilterTable(4)' />";
-                    }
-                    else
-                        if ((currentPage == 4)) {
-                            setPages = "";
-                            setPages += "<input id='first' type='button' value='1' onClick = 'FilterTable(1)' />";
-                            setPages += "<input id='first' type='button' value='2' onClick = 'FilterTable(2)' />";
-                            setPages += "<input id='first' type='button' value='3' onClick = 'FilterTable(3)' />";
-                            setPages += "<input id='second' type='button' value='4' onClick = 'FilterTable(4)' style='color: red; font-weight: 600;'/>";
-                            setPages += "<input id='first' type='button' value='5' onClick = 'FilterTable(5)' />";
-                        }
-
-
-            if (currentPage > 4)
+    function Pager(paginator, currentPage, id) {
+        var setPages = "";
+        for (var i = 0; i < paginator.length; i++) {
+            if ((paginator[i] == -1) || (paginator[i] == -2))
                 setPages += "<input type='button' value='...'/>";
-            if ((currentPage > 4) && (currentPage < pages - 3)) {
-                setPages += "<input id='precurrent' type='button' value='" + (currentPage - 1) + "' onClick = 'FilterTable(" + (currentPage - 1) + ")'/>";
-                setPages += "<input id='current' type='button' value='" + (currentPage) + "' onClick = 'FilterTable(" + (currentPage) + ")' style='color: red; font-weight: 600;'/>";
-                setPages += "<input id='postcurrent' type='button' value='" + (currentPage + 1) + "' onClick = 'FilterTable(" + (currentPage + 1) + ")'/>";
-
-            }
-            if ((currentPage < pages - 3) && (pages > 4))
-                setPages += "<input type='button' value='...'/>";
-
-            if ((currentPage == pages - 3)) {
-
-                setPages += "<input id='first' type='button' value='" + (pages - 4) + "' onClick = 'FilterTable(" + (pages - 4) + ")' />";
-                setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' style='color: red; font-weight: 600;'/>";
-                setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' />";
-                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
-            }
             else
-                if ((currentPage == pages - 2)) {
-                    setPages += "<input id='first' type='button' value='" + (pages - 3) + "' onClick = 'FilterTable(" + (pages - 3) + ")' />";
-                    setPages += "<input id='first' type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' style='color: red; font-weight: 600;'/>";
-                    setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                    setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' />";
-                }
+                if (paginator[i] == currentPage)
+                    setPages += "<input type='button' value='" + paginator[i] + "' onClick = 'FilterTable(" + paginator[i] + ',"' + id + '"' + ")' style='color: red; font-weight: 600;'/>";
                 else
-                    if ((currentPage == pages - 1)) {
-                        setPages += "<input  type='button' value='" + (pages - 2) + "' onClick = 'FilterTable(" + (pages - 2) + ")' '/>";
-                        setPages += "<input  type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' style='color: red; font-weight: 600;'/>";
-                        setPages += "<input  type='button' value='" + pages + "' onClick = 'FilterTable(" + pages + ")' />";
-                    }
-                    else
-                        if ((currentPage == pages)) {
-                            setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                            setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")' style='color: red; font-weight: 600;'/>";
-                        }
-                        else {
-                            if (pages > 2) {
-                                setPages += "<input id='second' type='button' value='" + (pages - 1) + "' onClick = 'FilterTable(" + (pages - 1) + ")' />";
-                                setPages += "<input id='first' type='button' value='" + (pages) + "' onClick = 'FilterTable(" + (pages) + ")'/>";
+                    setPages += "<input type='button' value='" + paginator[i] + "' onClick = 'FilterTable(" + paginator[i] + ',"' + id + '"' + ")'/>";
 
-                            }
-                        }
+
         }
         return setPages;
+    }
+
+    function Result(data) {
+        var currentPage = data.currentPage;
+        var pages = data.pages;
+        var list = data.list;
+        var paginator = data.paginator;
+        var user = "";
+        if (pages != 0) {
+
+            for (var i = 0; i < list.length; i++) {
+
+                user += "<tr><td>";
+                user += list[i].Id
+                        + "</td><td >"
+                        + list[i].Fio
+                        + "</td><td>"
+                        + list[i].Salary
+                        + "</td><td>"
+                        + list[i].DateOfBirthFormat
+                        + "</td><td>"
+                        + list[i].DateOfEmploymentFormat
+                        + "</td><td>"
+                        + list[i].DateOfDismissalFormat
+                        + "</td><td>"
+                        + list[i].LanguageFormat
+                        + "</td><td>"
+                        + list[i].CitizenshipFormat
+                        + "</td><td>"
+                        + list[i].SexFormat
+                        + "</td><td>"
+                        + list[i].IsReadyForMovingFormat
+                        + "</td><td>"
+                        + list[i].IsReadyForBusinessTripFormat
+                        + "</td><td>"
+                        + list[i].DepartamentTitle
+                        + "</td></tr>";
+
+
+                user += "</td></tr>";
+            }
+
+            $("#ajax").html(user);
+
+            $("#pages").html(Pager(paginator, currentPage, data.sortColumn));
+            $("#button").html('<input type="button" value="Show" onclick="FilterTable(1,' + "'" + data.sortColumn + "'" + ')" />');
+
+        }
+        else {
+            $("#ajax").html("");
+            $("#pages").html("");
+        }
     }
 </script>

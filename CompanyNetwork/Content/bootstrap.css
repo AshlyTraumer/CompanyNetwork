@@ -36,6 +36,12 @@ summary {
   display: block;
 }
 
+.inp
+    {
+        table-layout: inherit;
+        width: 100%
+    }
+
 audio,
 canvas,
 video {
