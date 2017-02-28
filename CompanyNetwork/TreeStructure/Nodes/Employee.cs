@@ -1,6 +1,7 @@
 ﻿using System;
 using CompanyNetwork.TreeStructure;
 using DomenModel.Enums;
+using CompanyNetwork.TreeStructure.Nodes;
 
 namespace CompanyNetwork.BaseTree
 {
@@ -18,7 +19,7 @@ namespace CompanyNetwork.BaseTree
         public DateTime? DateOfDismissal { get; set; }
 
         public Language Language { get; set; }
-        public Сitizenship Сitizenship { get; set; }
+        public CitizenshipDescription Сitizenship { get; set; }
         public SexOfPerson Sex { get; set; }
 
         public bool IsReadyForMoving { get; set; }

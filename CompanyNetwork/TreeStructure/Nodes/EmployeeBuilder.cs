@@ -1,5 +1,6 @@
 ﻿using System;
 using DomenModel.Enums;
+using CompanyNetwork.TreeStructure.Nodes;
 
 namespace CompanyNetwork.BaseTree
 {
@@ -53,7 +54,7 @@ namespace CompanyNetwork.BaseTree
             return this;
         }
 
-        public EmployeeBuilder SetNationality(Сitizenship citizenship)
+        public EmployeeBuilder SetNationality(CitizenshipDescription citizenship)
         {
             _employee.Сitizenship = citizenship;
             return this;

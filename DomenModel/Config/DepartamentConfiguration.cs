@@ -11,8 +11,8 @@ namespace DomenModel.Config
 
             HasMany(p => p.Employees)
                .WithRequired(p => p.Departament)
-               .WillCascadeOnDelete(false); ;
-
+               .WillCascadeOnDelete(false); 
+            
             ToTable("dbo.Departament");
         }
     }

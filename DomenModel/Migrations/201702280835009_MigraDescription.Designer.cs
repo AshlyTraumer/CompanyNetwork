@@ -7,13 +7,13 @@ namespace DomenModel.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Migra : IMigrationMetadata
+    public sealed partial class MigraDescription : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Migra));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MigraDescription));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702210907296_Migra"; }
+            get { return "201702280835009_MigraDescription"; }
         }
         
         string IMigrationMetadata.Source

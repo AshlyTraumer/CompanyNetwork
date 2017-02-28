@@ -1,10 +1,13 @@
 ﻿using System;
 using DomenModel.Enums;
+using System.Collections.Generic;
 
 namespace DomenModel.Models
 {
     public class Employee
     {
+       
+
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -16,8 +19,7 @@ namespace DomenModel.Models
         public DateTime DateOfEmployment { get; set; }
         public DateTime? DateOfDismissal { get; set; }
 
-        public Language Language { get; set; }
-        public Сitizenship Сitizenship { get; set; }
+        public Language Language { get; set; }        
         public SexOfPerson Sex { get; set; }
 
         public bool IsReadyForMoving { get; set; }
@@ -26,7 +28,16 @@ namespace DomenModel.Models
         public Departament Departament { get; set; }
         public int DepartamentId { get; set; }
 
-        
-        
+        public CitizenshipDescription CitizenshipDescription { get; set; }
+        public int Citizenship { get; set; }
+
+
+
+
+
+
+
+
+
     }
 }

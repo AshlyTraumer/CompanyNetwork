@@ -11,7 +11,7 @@ namespace CompanyNetwork
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+           bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -20,22 +20,22 @@ namespace CompanyNetwork
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css",
-                        "~/Content/jquery-ui.css",
+                       // "~/Content/jquery-ui.css",
                         "~/Content/Info.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                      // "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Content/paginator/jquery.simplePagination.js",
+                      
                       //  "~/Scripts/Chart.js",
                       "~/Scripts/canvasjs.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/paginator/simplePagination.css",
+                    
                       "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/paginator"));
+           
         }
     }
 }

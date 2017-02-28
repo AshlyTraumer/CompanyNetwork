@@ -211,6 +211,7 @@
     <Compile Include="Models\TableViewModel.cs" />
     <Compile Include="TreeStructure\AgeGroup.cs" />
     <Compile Include="TreeStructure\ExperienceGroup.cs" />
+    <Compile Include="TreeStructure\Nodes\CitizenshipDescription.cs" />
     <Compile Include="TreeStructure\Nodes\DepartamentNode.cs" />
     <Compile Include="TreeStructure\Nodes\Employee.cs" />
     <Compile Include="TreeStructure\Nodes\EmployeeBuilder.cs" />
@@ -231,8 +232,6 @@
     <Content Include="Content\Chart.js" />
     <Content Include="Content\Info.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\paginator\jquery.simplePagination.js" />
-    <Content Include="Content\paginator\simplePagination.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

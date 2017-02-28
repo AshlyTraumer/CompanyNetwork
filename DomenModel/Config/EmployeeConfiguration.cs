@@ -9,6 +9,7 @@ namespace DomenModel.Config
         {
             HasKey(p => p.Id);
 
+
             ToTable("dbo.Employee");
         }
     }

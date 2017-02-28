@@ -17,11 +17,12 @@ namespace CompanyNetwork.Controllers
     {
         private readonly CompanyContext _context;
         private readonly DepartamentNode _model;
+        
 
         public HomeController()
         {
             _context = new CompanyContext();
-            _model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees).ToList());
+            _model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees).Include(q => q.Employees.Select(w => w.CitizenshipDescription)).ToList());
         }
 
         public ActionResult Index()
@@ -123,11 +124,7 @@ namespace CompanyNetwork.Controllers
             ViewBag.Language = enumList;
 
 
-            enumList = new List<string>();
-            foreach (var item in Enum.GetValues(typeof(Сitizenship)))
-            {
-                enumList.Add(EnumDescription.GetDescription((Сitizenship)item));
-            }
+            enumList = _context.CitizenshipDescriptions.Select(q => q.Name).ToList();            
             ViewBag.Сitizenship = enumList;
 
             return View();
@@ -137,7 +134,8 @@ namespace CompanyNetwork.Controllers
         public ActionResult Info(FilterModel model)
         {
             var size = 20;
-
+            var qw = _context.CitizenshipDescriptions.ToList();
+            var qq = _context.Emloyees.ToList();
             var query = _context.Emloyees
                  .Select(q => new TableViewModel
                  {
@@ -151,7 +149,11 @@ namespace CompanyNetwork.Controllers
                      DateOfDismissal = q.DateOfDismissal,
                      DateOfBirth = q.DateOfBirth,
                      Sex = q.Sex,
-                     Сitizenship = q.Сitizenship,
+                     Citizenship = new CitizenshipModel
+                     {
+                         Id = q.CitizenshipDescription.Id,
+                         Name = q.CitizenshipDescription.Name
+                     },
                      IsReadyForBusinessTrip = q.IsReadyForBusinessTrip,
                      IsReadyForMoving = q.IsReadyForMoving,
                      DepartamentTitle = q.Departament.Name
@@ -163,15 +165,21 @@ namespace CompanyNetwork.Controllers
             }
 
             var param = "Id";
+            
             if (model.SortId != null)
                 param = model.SortId;
-            
+
+                 
 
             var count = query.Count();
-            var sortedData = query.OrderBy(param, false)                
+            var sortedData = new List<TableViewModel>();
+          
+             sortedData = query.OrderBy(param,model.IsDesc)                
                     .Skip((model.CurrentPage - 1) * size)
                             .Take(size)
                             .ToList();
+            
+
 
             var pages = (count % size == 0) ? count / size : count / size + 1;       
 
@@ -188,11 +196,13 @@ namespace CompanyNetwork.Controllers
         {
             var numList = new HashSet<int>();
             numList.Add(1);
+            if (pages > 1)
             numList.Add(2);
             if (currentPage - 1 > 3)
                 numList.Add(-1);
             if (currentPage != 1)
                 numList.Add(currentPage - 1);
+           
             numList.Add(currentPage);
 
             if (currentPage != pages)
@@ -203,6 +213,7 @@ namespace CompanyNetwork.Controllers
 
             numList.Add(pages - 1);
             numList.Add(pages);
+            if (numList.Contains(0)) numList.Remove(0);
             return numList;
         }
     }
