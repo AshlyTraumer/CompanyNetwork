@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
+﻿using System.ComponentModel;
 
 namespace CompanyNetwork.TreeStructure
 {
@@ -21,18 +18,5 @@ namespace CompanyNetwork.TreeStructure
 
         [Description("более 50")]
         Upper50 = 100
-    }
-
-    public static class EnumDescription
-    {
-        public static string GetDescription(Enum age)
-        {
-            return age.GetType()
-                .GetMember(age.ToString())
-                .First()
-                .GetCustomAttribute<DescriptionAttribute>()
-                .Description;
-
-        }
-    }
+    }        
 }

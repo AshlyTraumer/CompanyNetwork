@@ -1,20 +1,13 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Info";
 }
 
+@Scripts.Render("~/bundles/info")
 
 <h2>Info</h2>
 <div id="button">
-    <input type="button" value="Show" onclick="FilterTable(1)" id="button" />
+    <input type="button" value="Sort" onclick="FilterTable(1)" id="button" />
 </div>
-
-
-
-
-
-
 
 
 <table class="table" style="table-layout: fixed">
@@ -155,12 +148,12 @@
 
 
 
-
-
 <script>
     $(document).ready(function () {
         Reset();
+
         $("#IdUp").show();
+
          $("#datepicker1").datepicker({
             dateFormat: 'yy-mm-dd',
             minDate: new Date(1950, 1, 1),
@@ -185,26 +178,21 @@
             autoclose: true
         });    
               
-        FilterTable(1);
-   
+        FilterTable(1);   
 
-    $(document).ajaxStart(function () {
-        $('#preloader').show();
-        $('#ajax').hide();
-       // $("#button").hide();
-        $("#pages").hide();
-    })
-    .ajaxStop(function () {
-        $('#preloader').hide();
-        $('#ajax').show();
-       // $("#button").show();
-        $("#pages").show();
-    });
+        $(document).ajaxStart(function () {
+            $('#preloader').show();
+            $('#ajax').hide();       
+            $("#pages").hide();
+        })
+        .ajaxStop(function () {
+            $('#preloader').hide();
+            $('#ajax').show();      
+            $("#pages").show();
+        });
     });
 
- 
-    function Reset()
-    {
+    function Reset() {
         $('#FirstNameUp').hide();
         $('#FirstNameDown').hide();
         $('#SalaryUp').hide();
@@ -228,10 +216,9 @@
     function FilterTable(page, id, save) {
         var sortType;
 
-        if ((id != null) && (save == false)) {            
+        if ((id != null) && (save == false)) {
 
-            if ($("#" + id + "Up").is(":hidden"))
-            {
+            if ($("#" + id + "Up").is(":hidden")) {
                 Reset();
                 $("#" + id + "Up").show();
                 $("#" + id + "Down").hide();
@@ -246,9 +233,9 @@
                 }
                 else
                     Reset();
-           
+
         }
-        
+
         $.ajax({
             url: '@Url.Action("Info", "Home")',
             type: 'POST',
@@ -275,9 +262,9 @@
                     SortId: id,
                     IsDesc: sortType
                 }),
-            success: function (data) {                
+            success: function (data) {
                 Result(data);
-               
+
             }
         });
     }
@@ -303,7 +290,7 @@
         var pages = data.pages;
         var list = data.list;
         var paginator = data.paginator;
-       
+
         var user = "";
         if (pages != 0) {
 

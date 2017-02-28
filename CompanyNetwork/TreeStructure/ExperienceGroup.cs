@@ -16,7 +16,6 @@ namespace CompanyNetwork.TreeStructure
 
         [Description("God")]
         God = 100,
-        
-    }
 
     }
+}

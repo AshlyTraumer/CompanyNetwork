@@ -4,13 +4,13 @@ namespace DomenModel.Enums
 {
     public enum SexOfPerson
     {
-        [Description("Men")]
+        [Description("Мужчина")]
         Men = 0,
 
-        [Description("Women")]
+        [Description("Женщина")]
         Women = 1,
 
-        [Description("None")]
+        [Description("Не определено")]
         NotFound = 2
     }
 }

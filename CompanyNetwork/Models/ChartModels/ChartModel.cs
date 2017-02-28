@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using CompanyNetwork.TreeStructure;
+﻿using System.Collections.Generic;
+
 
 namespace CompanyNetwork.Models
 {

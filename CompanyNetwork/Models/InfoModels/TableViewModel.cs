@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Linq.Expressions;
-using DomenModel.Models;
+using CompanyNetwork.Core.EnumHelper;
+using CompanyNetwork.Models.ViewModels;
+using System.Globalization;
 
 namespace CompanyNetwork.Models
 {
@@ -22,9 +23,7 @@ namespace CompanyNetwork.Models
         public DateTime DateOfEmployment { get; set; }
         public DateTime? DateOfDismissal { get; set; }
 
-        public Language Language { get; set; }
-
-      
+        public Language Language { get; set; }      
         public CitizenshipModel Citizenship { get; set; }
         public SexOfPerson Sex { get; set; }
 
@@ -37,11 +36,7 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                return Sex.GetType()
-                .GetMember(Sex.ToString())
-                .First()
-                .GetCustomAttribute<DescriptionAttribute>()
-                .Description;
+                return EnumHelper.GetDescription(Sex);
             }
         }
 
@@ -49,29 +44,16 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                var array = Flags.GetFlags(Language);
+                var array = EnumHelper.GetFlags(Language);
                 var arrayDescr = new List<string>();
                 foreach (var item in array)
                 {
-                    arrayDescr.Add(EnumDescription.GetDescription(item));
+                    arrayDescr.Add(EnumHelper.GetDescription(item));
                 }
                 return arrayDescr;
             }
         }
-
-
-
-        public string СitizenshipDescription
-        {
-            get
-            {
-               
-                return Citizenship.ToString();
-               
-                
-            }
-        }
-
+        
         public string Fio
         {
             get
@@ -86,7 +68,7 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                return DateOfBirth.ToString("g");
+                return DateOfBirth.ToString("g", CultureInfo.CurrentCulture);
             }
         }
 
@@ -94,7 +76,7 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                return DateOfEmployment.ToString("g");
+                return DateOfEmployment.ToString("g", CultureInfo.CurrentCulture);
             }
         }
 
@@ -104,7 +86,7 @@ namespace CompanyNetwork.Models
             {
                 return (DateOfDismissal == null)
                     ? "No details"
-                    : ((DateTime)DateOfDismissal).ToString("g");
+                    :  ((DateTime) DateOfDismissal).ToString("g",CultureInfo.CurrentCulture);
             }
         }
 
@@ -112,7 +94,14 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                return Language.ToString().Replace(" ", Environment.NewLine);
+                var str = new List<string>();
+
+                foreach (var item in EnumHelper.GetFlags(Language))
+                {
+                    str.Add(EnumHelper.GetDescription(item));
+                }
+                    
+                return string.Join(Environment.NewLine, str);
             }
         }
 
@@ -122,15 +111,22 @@ namespace CompanyNetwork.Models
         {
             get
             {
-                return Citizenship.ToString().Replace(" ", Environment.NewLine);
+                return Citizenship.Name;
             }
         }
 
         public string SexFormat
         {
             get
-            {
-                return Sex.ToString();
+            {               
+                var str = new List<string>();
+
+                foreach (var item in EnumHelper.GetFlags(Sex))
+                {
+                    str.Add(EnumHelper.GetDescription(item));
+                }
+                    
+                return string.Join(Environment.NewLine, str);
             }
         }
 
@@ -151,35 +147,7 @@ namespace CompanyNetwork.Models
         }
 
         public string SortId { get; set; } = "Id";
-
-        public string GetOrder
-        {
-            get
-            {
-                /*var i = 0;
-
-                if (Citizenship.HasFlag(Сitizenship.Albanians)) { i += 1; }
-                if (Citizenship.HasFlag(Сitizenship.Armenians)) { i += 2; }
-                if (Citizenship.HasFlag(Сitizenship.Australians)) { i += 3; }
-                if (Citizenship.HasFlag(Сitizenship.BalticGermans)) { i += 4; }
-                if (Citizenship.HasFlag(Сitizenship.Belarusians)) { i += 5; }
-                if (Citizenship.HasFlag(Сitizenship.Belgians)) { i += 6; }
-                if (Citizenship.HasFlag(Сitizenship.Canadians)) { i += 7; }
-                if (Citizenship.HasFlag(Сitizenship.FrenchCitizens)) { i += 8; }
-                if (Citizenship.HasFlag(Сitizenship.Germans)) { i += 9; }
-                if (Citizenship.HasFlag(Сitizenship.Poles)) { i += 10; }
-                if (Citizenship.HasFlag(Сitizenship.Russians)) { i += 11; }
-
-                return i;*/
-                return Citizenship.ToString();
-            }
-
-        }
+        
     }
-
-    public class CitizenshipModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
+    
 }

@@ -6,44 +6,45 @@
 
 <h2>Time: @ViewBag.Watch</h2>
 
-<table class ="table">
-    <tr>
-        <th>
-            
-        </th>
-        <th>
-            Id
-        </th>
-        <td>
-            Title
-        </td>
-        <td>
-            DepartamentCount
-        </td>
-        <td>
-            EmployeeCount
-        </td>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table">
+    <thead>
         <tr>
+            <th></th>
+            <th>
+                Id
+            </th>
             <td>
-                @{ i++;}
-                @i
+                Title
             </td>
             <td>
-                @item.Id
+                DepartamentCount
             </td>
             <td>
-                @item.Title
-            </td>
-            <td>
-                @item.DCount
-            </td>
-            <td>
-                @item.ECount
+                EmployeeCount
             </td>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{ i++;}
+                    @i
+                </td>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.DCount
+                </td>
+                <td>
+                    @item.ECount
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

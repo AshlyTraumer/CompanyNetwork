@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CompanyNetwork.Models;
 using CompanyNetwork.TreeStructure;
 using DomenModel.Enums;
-using AgeGroup = CompanyNetwork.TreeStructure.AgeGroup;
-
+using CompanyNetwork.Core.EnumHelper;
 
 namespace CompanyNetwork.BaseTree
 {
@@ -17,7 +15,9 @@ namespace CompanyNetwork.BaseTree
         public IReadOnlyList<DepartamentNode> Children;
         public IReadOnlyList<Employee> Employees;
 
-        public DepartamentNode(int id, string name, Countries country, IEnumerable<DepartamentNode> children, IEnumerable<Employee> employee)
+        public DepartamentNode(
+            int id, string name, Countries country, 
+            IEnumerable<DepartamentNode> children, IEnumerable<Employee> employee)
         {
             Id = id;
             Name = name;
@@ -30,7 +30,11 @@ namespace CompanyNetwork.BaseTree
         {
             get
             {
-                return Children.Count != 0 ? Children.Select(q => q.DepartamentCount + 1).Sum() : 0;
+                return Children.Count != 0 
+                    ? Children
+                        .Select(q => q.DepartamentCount + 1)
+                        .Sum() 
+                    : 0;
             }
         }
 
@@ -38,7 +42,11 @@ namespace CompanyNetwork.BaseTree
         {
             get
             {
-                return Children.Count != 0 ? Children.Select(q => q.EmployeeCount + q.Employees.Count).Sum() : 0;
+                return Children.Count != 0 
+                    ? Children
+                        .Select(q => q.EmployeeCount + q.Employees.Count)
+                        .Sum() 
+                    : 0;
             }
         }
 
@@ -55,8 +63,9 @@ namespace CompanyNetwork.BaseTree
                         years += child.EmployeeAge;
                     }
                 }
-                return years + Employees.Select(q => q.Age).Sum();
-
+                return years + Employees
+                    .Select(q => q.Age)
+                    .Sum();
             }
         }
 
@@ -75,7 +84,6 @@ namespace CompanyNetwork.BaseTree
                 }
 
                 return list;
-
             }
         }
 
@@ -88,14 +96,19 @@ namespace CompanyNetwork.BaseTree
             else
             {
                 if (Children.Count == 0)
+                {
                     return null;
+                }                    
                 else
                 {
                     foreach (var child in Children)
                     {
                         var node = child.GetById(id);
+
                         if (node != null)
+                        {
                             return node;
+                        }                            
                     }
                 }
             }
@@ -115,12 +128,13 @@ namespace CompanyNetwork.BaseTree
                 if (!employee.IsWork) continue;
 
                 if (model.Dictionary.ContainsKey(employee.AgeGroup))
+                {
                     model.Dictionary[employee.AgeGroup] += 1;
+                }                    
                 else
                 {
                     model.Dictionary.Add(employee.AgeGroup, 1);
                 }
-
             }
 
             foreach (var child in Children)
@@ -137,16 +151,20 @@ namespace CompanyNetwork.BaseTree
             {
                 if (employee.IsWork)
                 {
-                    var languages = Flags.GetFlags(employee.Language);
+                    var languages = EnumHelper.GetFlags(employee.Language);
+
                     foreach (Language l in languages)
                     {
                         if (model.Dictionary.ContainsKey(l))
+                        {
                             model.Dictionary[l] += 1;
+                        }                            
                         else
+                        {
                             model.Dictionary.Add(l, 1);
+                        }                            
                     }
-                }
-                   
+                }                   
             }
 
             foreach (var child in Children)
@@ -164,7 +182,9 @@ namespace CompanyNetwork.BaseTree
                 if (!employee.IsWork) continue;
 
                 if (model.Dictionary.ContainsKey(employee.ExperienceGroup))
+                {
                     model.Dictionary[employee.ExperienceGroup] += 1;
+                }                    
                 else
                 {
                     model.Dictionary.Add(employee.ExperienceGroup, 1);
@@ -179,9 +199,5 @@ namespace CompanyNetwork.BaseTree
 
             return model;
         }
-
-
-
-
     }
 }

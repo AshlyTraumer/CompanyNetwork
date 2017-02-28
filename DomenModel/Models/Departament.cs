@@ -11,6 +11,6 @@ namespace DomenModel.Models
         public string Name { get; set; }
         public Countries Country { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }

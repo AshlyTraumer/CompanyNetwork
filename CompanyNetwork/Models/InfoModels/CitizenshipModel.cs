@@ -1,6 +1,6 @@
-﻿namespace CompanyNetwork.TreeStructure.Nodes
+﻿namespace CompanyNetwork.Models.ViewModels
 {
-    public class CitizenshipDescription
+    public class CitizenshipModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

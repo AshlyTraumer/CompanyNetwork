@@ -13,7 +13,8 @@ namespace DomenModel.Config
 
             HasMany(q => q.Employees)
                 .WithRequired(q => q.CitizenshipDescription)
-                .HasForeignKey(q => q.Citizenship);
+                .HasForeignKey(q => q.Citizenship)
+                .WillCascadeOnDelete(false);
 
             ToTable("dbo.CitizenshipDescription");
         }

@@ -33,7 +33,8 @@ namespace CompanyNetwork.BaseTree
             {
                 var date = DateTime.Now.Year - DateOfBirth.Year;
 
-                if (DateTime.Now.Month < DateOfBirth.Month || (DateTime.Now.Month == DateOfBirth.Month && DateTime.Now.Day < DateOfBirth.Day))
+                if (DateTime.Now.Month < DateOfBirth.Month || 
+                    (DateTime.Now.Month == DateOfBirth.Month && DateTime.Now.Day < DateOfBirth.Day))
                 {
                     date--;
                 }
@@ -55,8 +56,7 @@ namespace CompanyNetwork.BaseTree
                         return (AgeGroup) item;
                     }
                 }
-                return AgeGroup.Upper50;
-                
+                return AgeGroup.Upper50;                
             }
         }
 
@@ -64,12 +64,14 @@ namespace CompanyNetwork.BaseTree
         {
             get
             {
-                int date;
+                var date = 0;
+
                 if (DateOfDismissal == null)
                 {
                     date = DateTime.Now.Year - DateOfEmployment.Year;
 
-                    if (DateTime.Now.Month < DateOfBirth.Month || (DateTime.Now.Month == DateOfBirth.Month && DateTime.Now.Day < DateOfBirth.Day))
+                    if (DateTime.Now.Month < DateOfBirth.Month || 
+                        (DateTime.Now.Month == DateOfBirth.Month && DateTime.Now.Day < DateOfBirth.Day))
                     {
                         date--;
                     }
@@ -79,12 +81,12 @@ namespace CompanyNetwork.BaseTree
                     date = (int) DateOfDismissal?.Year - DateOfEmployment.Year;
 
                     if ((int)DateOfDismissal?.Month < DateOfEmployment.Month 
-                        || ((int)DateOfDismissal?.Month == DateOfEmployment.Month && (int)DateOfDismissal?.Day < DateOfEmployment.Day))
+                        || ((int)DateOfDismissal?.Month == DateOfEmployment.Month &&
+                            (int)DateOfDismissal?.Day < DateOfEmployment.Day))
                     {
                         date--;
                     }
-                }
-                
+                }                
 
                 return date;
             }
@@ -102,10 +104,7 @@ namespace CompanyNetwork.BaseTree
                     }
                 }
                 return ExperienceGroup.God;
-
             }
-        }
-
-        
+        }        
     }
 }

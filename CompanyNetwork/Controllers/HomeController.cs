@@ -6,10 +6,11 @@ using System.Linq;
 using System.Web.Mvc;
 using CompanyNetwork.BaseTree;
 using CompanyNetwork.Models;
-using CompanyNetwork.TreeStructure;
+using CompanyNetwork.Core.OrderFilter;
 using DomenModel;
 using DomenModel.Enums;
-using PagedList;
+using CompanyNetwork.Core.EnumHelper;
+using CompanyNetwork.Models.ViewModels;
 
 namespace CompanyNetwork.Controllers
 {
@@ -22,7 +23,14 @@ namespace CompanyNetwork.Controllers
         public HomeController()
         {
             _context = new CompanyContext();
-            _model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees).Include(q => q.Employees.Select(w => w.CitizenshipDescription)).ToList());
+
+            _model = TreeCreator.MakeTree(
+                _context.Departaments
+                .Include(q => q.Employees)
+                .Include(q => q.Employees
+                    .Select(w => w.CitizenshipDescription)
+                ).ToList()
+                );
         }
 
         public ActionResult Index()
@@ -63,7 +71,7 @@ namespace CompanyNetwork.Controllers
             {
                 dict.Add(new DictionaryModel
                 {
-                    Description = EnumDescription.GetDescription(item.Key),
+                    Description = EnumHelper.GetDescription(item.Key),
                     Value = item.Value
                 });
             }
@@ -81,7 +89,7 @@ namespace CompanyNetwork.Controllers
             {
                 dict.Add(new DictionaryModel
                 {
-                    Description = EnumDescription.GetDescription(item.Key),
+                    Description = EnumHelper.GetDescription(item.Key),
                     Value = item.Value
                 });
             }
@@ -98,7 +106,7 @@ namespace CompanyNetwork.Controllers
             {
                 dict.Add(new DictionaryModel
                 {
-                    Description = EnumDescription.GetDescription(item.Key),
+                    Description = EnumHelper.GetDescription(item.Key),
                     Value = item.Value
                 });
             }
@@ -110,22 +118,26 @@ namespace CompanyNetwork.Controllers
         public ActionResult Info()
         {
             var enumList = new List<string>();
+
             foreach (var item in Enum.GetValues(typeof(SexOfPerson)))
             {
-                enumList.Add(EnumDescription.GetDescription((SexOfPerson) item));
+                enumList.Add(EnumHelper.GetDescription((SexOfPerson) item));
             }
+
             ViewBag.Sex = enumList;
 
             enumList = new List<string>();
+            
             foreach (var item in Enum.GetValues(typeof(Language)))
             {
-                enumList.Add(EnumDescription.GetDescription((Language)item));
+                enumList.Add(EnumHelper.GetDescription((Language)item));
             }
+
             ViewBag.Language = enumList;
-
-
-            enumList = _context.CitizenshipDescriptions.Select(q => q.Name).ToList();            
-            ViewBag.Сitizenship = enumList;
+                                 
+            ViewBag.Сitizenship = _context.CitizenshipDescriptions
+                .Select(q => q.Name)
+                .ToList();
 
             return View();
         }
@@ -134,8 +146,8 @@ namespace CompanyNetwork.Controllers
         public ActionResult Info(FilterModel model)
         {
             var size = 20;
-            var qw = _context.CitizenshipDescriptions.ToList();
-            var qq = _context.Emloyees.ToList();
+            var param = "Id";
+
             var query = _context.Emloyees
                  .Select(q => new TableViewModel
                  {
@@ -164,24 +176,20 @@ namespace CompanyNetwork.Controllers
                 query = query.Where(filter);
             }
 
-            var param = "Id";
-            
-            if (model.SortId != null)
-                param = model.SortId;
-
-                 
-
             var count = query.Count();
-            var sortedData = new List<TableViewModel>();
-          
+
+            param = (model.SortId != null) ? param = model.SortId : param;
+                      
+                       
+            var sortedData = new List<TableViewModel>();          
              sortedData = query.OrderBy(param,model.IsDesc)                
                     .Skip((model.CurrentPage - 1) * size)
                             .Take(size)
-                            .ToList();
+                            .ToList();            
             
-
-
-            var pages = (count % size == 0) ? count / size : count / size + 1;       
+            var pages = (count % size == 0) 
+                ? count / size 
+                : count / size + 1;       
 
             return Json(new {
                 list = sortedData,
@@ -195,11 +203,15 @@ namespace CompanyNetwork.Controllers
         private HashSet<int> GetPagesNums(int currentPage, int pages)
         {
             var numList = new HashSet<int>();
+
             numList.Add(1);
+
             if (pages > 1)
-            numList.Add(2);
+                numList.Add(2);
+
             if (currentPage - 1 > 3)
                 numList.Add(-1);
+
             if (currentPage != 1)
                 numList.Add(currentPage - 1);
            
@@ -213,7 +225,10 @@ namespace CompanyNetwork.Controllers
 
             numList.Add(pages - 1);
             numList.Add(pages);
-            if (numList.Contains(0)) numList.Remove(0);
+
+            if (numList.Contains(0))
+                numList.Remove(0);
+
             return numList;
         }
     }

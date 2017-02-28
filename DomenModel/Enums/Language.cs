@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace DomenModel.Enums
@@ -7,38 +6,25 @@ namespace DomenModel.Enums
     [Flags]
     public enum Language
     {
-        [Description("English")]
+        [Description("Английский")]
         English = 1,
 
-        [Description("Russian")]
+        [Description("Русский")]
         Russian = 2,
 
-        [Description("German")]
+        [Description("Немецкий")]
         German = 4,
 
-        [Description("Albanian")]
+        [Description("Албанский")]
         Albanian = 8,
 
-        [Description("French")]
+        [Description("Французский")]
         French = 16,
 
-        [Description("Polish")]
+        [Description("Польский")]
         Polish = 32,
 
-        [Description("Spanish")]
+        [Description("Испанский")]
         Spanish = 64
-    }
-
-    public static class Flags
-    {
-        public static IEnumerable<Enum> GetFlags(Enum input)
-        {
-            foreach (Enum value in Enum.GetValues(input.GetType()))
-                if (input.HasFlag(value))
-                    yield return value;
-        }
-
-        
-    }
-    
+    }   
 }

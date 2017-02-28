@@ -14,7 +14,6 @@ namespace DomenModel
         public DbSet<Employee> Emloyees { get; set; }
         public DbSet<CitizenshipDescription> CitizenshipDescriptions { get; set; }
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new DepartamentConfiguration());

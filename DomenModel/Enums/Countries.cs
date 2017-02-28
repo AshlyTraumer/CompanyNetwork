@@ -12,9 +12,5 @@
         Poland = 7,
         Russia = 8,
         Usa = 9
-    }
-
-    
-
-    
+    }   
 }
