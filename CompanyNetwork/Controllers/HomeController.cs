@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using CompanyNetwork.BaseTree;
-using CompanyNetwork.Models;
+using CompanyNetwork.Core;
 using CompanyNetwork.Core.OrderFilter;
 using DomenModel;
 using DomenModel.Enums;
@@ -18,25 +18,12 @@ namespace CompanyNetwork.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CompanyContext _context;
-        private readonly DepartamentNode _model;
+        private CompanyContext _context => HttpContext.GetContextPerRequest();
+        private DepartamentNode _model;
         
-
-        public HomeController()
-        {
-            _context = new CompanyContext();
-
-            _model = TreeCreator.MakeTree(
-                _context.Departaments
-                .Include(q => q.Employees)
-                .Include(q => q.Employees
-                    .Select(w => w.CitizenshipDescription)
-                ).ToList()
-                );
-        }
-
+        
         public ActionResult Index()
-        {
+        {   
             var watch = Stopwatch.StartNew();
 
             var model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees).ToList())
@@ -54,6 +41,7 @@ namespace CompanyNetwork.Controllers
                .ToList();
 
             watch.Stop();
+            HttpContext.Items["log"] = _context.Database.Log;
             ViewBag.Watch = watch.ElapsedMilliseconds;
 
             return View(model);
@@ -62,6 +50,14 @@ namespace CompanyNetwork.Controllers
         [ActionName("Chart")]
         public ActionResult About()
         {
+            _model = TreeCreator.MakeTree(
+                _context.Departaments
+                .Include(q => q.Employees)
+                .Include(q => q.Employees
+                    .Select(w => w.CitizenshipDescription)
+                ).ToList()
+                );
+
             return View();
         }
 
@@ -135,6 +131,7 @@ namespace CompanyNetwork.Controllers
         [HttpPost]
         public ActionResult Info(FilterModel model)
         {
+           
             const int size = 20;
             var param = "Id";
 

@@ -1,0 +1,134 @@
+2017-03-01 13:41:56.2929|INFO|CompanyNetwork.Core.HttpContextExtensions|Opened connection at 01.03.2017 13:41:56 +03:00
+
+2017-03-01 13:41:56.3760|INFO|CompanyNetwork.Core.HttpContextExtensions|
+SELECT Count(*)
+FROM INFORMATION_SCHEMA.TABLES AS t
+WHERE t.TABLE_SCHEMA + '.' + t.TABLE_NAME IN ('dbo.CitizenshipDescription','dbo.Employee','dbo.Departament')
+    OR t.TABLE_NAME = 'EdmMetadata'
+2017-03-01 13:41:56.3880|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:41:56.5771|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Executing at 01.03.2017 13:41:56 +03:00
+
+2017-03-01 13:41:56.8688|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Completed in 269 ms with result: 3
+
+2017-03-01 13:41:56.9243|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:41:56.9538|INFO|CompanyNetwork.Core.HttpContextExtensions|Closed connection at 01.03.2017 13:41:56 +03:00
+
+2017-03-01 13:41:57.9650|INFO|CompanyNetwork.Core.HttpContextExtensions|Opened connection at 01.03.2017 13:41:57 +03:00
+
+2017-03-01 13:42:01.0752|INFO|CompanyNetwork.Core.HttpContextExtensions|SELECT 
+    [GroupBy1].[A1] AS [C1]
+    FROM ( SELECT 
+        COUNT(1) AS [A1]
+        FROM [dbo].[__MigrationHistory] AS [Extent1]
+        WHERE [Extent1].[ContextKey] = @p__linq__0
+    )  AS [GroupBy1]
+2017-03-01 13:42:01.0752|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:01.0982|INFO|CompanyNetwork.Core.HttpContextExtensions|-- p__linq__0: 'DomenModel.Migrations.Configuration' (Type = String, Size = 4000)
+
+2017-03-01 13:42:01.1232|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Executing at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.1473|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Completed in 8 ms with result: SqlDataReader
+
+2017-03-01 13:42:01.1473|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:01.1873|INFO|CompanyNetwork.Core.HttpContextExtensions|Closed connection at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.2278|INFO|CompanyNetwork.Core.HttpContextExtensions|Opened connection at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.4024|INFO|CompanyNetwork.Core.HttpContextExtensions|SELECT TOP (1) 
+    [Project1].[C1] AS [C1], 
+    [Project1].[MigrationId] AS [MigrationId], 
+    [Project1].[Model] AS [Model], 
+    [Project1].[ProductVersion] AS [ProductVersion]
+    FROM ( SELECT 
+        [Extent1].[MigrationId] AS [MigrationId], 
+        [Extent1].[Model] AS [Model], 
+        [Extent1].[ProductVersion] AS [ProductVersion], 
+        1 AS [C1]
+        FROM [dbo].[__MigrationHistory] AS [Extent1]
+        WHERE [Extent1].[ContextKey] = @p__linq__0
+    )  AS [Project1]
+    ORDER BY [Project1].[MigrationId] DESC
+2017-03-01 13:42:01.4115|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:01.4115|INFO|CompanyNetwork.Core.HttpContextExtensions|-- p__linq__0: 'DomenModel.Migrations.Configuration' (Type = String, Size = 4000)
+
+2017-03-01 13:42:01.4285|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Executing at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.4435|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Completed in 3 ms with result: SqlDataReader
+
+2017-03-01 13:42:01.4435|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:01.4785|INFO|CompanyNetwork.Core.HttpContextExtensions|Closed connection at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.5951|INFO|CompanyNetwork.Core.HttpContextExtensions|Opened connection at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.6776|INFO|CompanyNetwork.Core.HttpContextExtensions|SELECT 
+    [Extent1].[Name] AS [Name]
+    FROM [dbo].[CitizenshipDescription] AS [Extent1]
+2017-03-01 13:42:01.6776|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:01.7047|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Executing at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:01.7647|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Completed in 48 ms with result: SqlDataReader
+
+2017-03-01 13:42:01.7797|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:01.8092|INFO|CompanyNetwork.Core.HttpContextExtensions|Closed connection at 01.03.2017 13:42:01 +03:00
+
+2017-03-01 13:42:41.5105|INFO|CompanyNetwork.Core.HttpContextExtensions|Opened connection at 01.03.2017 13:42:41 +03:00
+
+2017-03-01 13:42:41.9129|INFO|CompanyNetwork.Core.HttpContextExtensions|SELECT 
+    [GroupBy1].[A1] AS [C1]
+    FROM ( SELECT 
+        COUNT(1) AS [A1]
+        FROM [dbo].[Employee] AS [Extent1]
+    )  AS [GroupBy1]
+2017-03-01 13:42:41.9129|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:41.9339|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Executing at 01.03.2017 13:42:41 +03:00
+
+2017-03-01 13:42:41.9679|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Completed in 24 ms with result: SqlDataReader
+
+2017-03-01 13:42:41.9809|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:41.9959|INFO|CompanyNetwork.Core.HttpContextExtensions|Closed connection at 01.03.2017 13:42:41 +03:00
+
+2017-03-01 13:42:42.0309|INFO|CompanyNetwork.Core.HttpContextExtensions|Opened connection at 01.03.2017 13:42:42 +03:00
+
+2017-03-01 13:42:42.1976|INFO|CompanyNetwork.Core.HttpContextExtensions|SELECT TOP (20) 
+    [Join2].[Id1] AS [Id], 
+    [Join2].[FirstName] AS [FirstName], 
+    [Join2].[Name1] AS [Name], 
+    [Join2].[LastName] AS [LastName], 
+    [Join2].[Salary] AS [Salary], 
+    [Join2].[Language] AS [Language], 
+    [Join2].[DateOfEmployment] AS [DateOfEmployment], 
+    [Join2].[DateOfDismissal] AS [DateOfDismissal], 
+    [Join2].[DateOfBirth] AS [DateOfBirth], 
+    [Join2].[Sex] AS [Sex], 
+    [Join2].[Citizenship] AS [Citizenship], 
+    [Join2].[Name2] AS [Name1], 
+    [Join2].[IsReadyForBusinessTrip] AS [IsReadyForBusinessTrip], 
+    [Join2].[IsReadyForMoving] AS [IsReadyForMoving], 
+    [Join2].[Name3] AS [Name2]
+    FROM ( SELECT [Extent1].[Id] AS [Id1], [Extent1].[FirstName] AS [FirstName], [Extent1].[Name] AS [Name1], [Extent1].[LastName] AS [LastName], [Extent1].[Salary] AS [Salary], [Extent1].[DateOfBirth] AS [DateOfBirth], [Extent1].[DateOfEmployment] AS [DateOfEmployment], [Extent1].[DateOfDismissal] AS [DateOfDismissal], [Extent1].[Language] AS [Language], [Extent1].[Sex] AS [Sex], [Extent1].[Citizenship] AS [Citizenship], [Extent1].[IsReadyForMoving] AS [IsReadyForMoving], [Extent1].[IsReadyForBusinessTrip] AS [IsReadyForBusinessTrip], [Extent2].[Name] AS [Name2], [Extent3].[Name] AS [Name3], row_number() OVER (ORDER BY [Extent1].[Id] ASC) AS [row_number]
+        FROM   [dbo].[Employee] AS [Extent1]
+        INNER JOIN [dbo].[CitizenshipDescription] AS [Extent2] ON [Extent1].[Citizenship] = [Extent2].[Id]
+        INNER JOIN [dbo].[Departament] AS [Extent3] ON [Extent1].[DepartamentId] = [Extent3].[Id]
+    )  AS [Join2]
+    WHERE [Join2].[row_number] > 0
+    ORDER BY [Join2].[Id1] ASC
+2017-03-01 13:42:42.2431|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:42.2951|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Executing at 01.03.2017 13:42:42 +03:00
+
+2017-03-01 13:42:42.3212|INFO|CompanyNetwork.Core.HttpContextExtensions|-- Completed in 13 ms with result: SqlDataReader
+
+2017-03-01 13:42:42.3212|INFO|CompanyNetwork.Core.HttpContextExtensions|
+
+2017-03-01 13:42:42.4056|INFO|CompanyNetwork.Core.HttpContextExtensions|Closed connection at 01.03.2017 13:42:42 +03:00
+
