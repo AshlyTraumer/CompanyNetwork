@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CompanyNetwork.Models;
-using CompanyNetwork.TreeStructure;
 using DomenModel.Enums;
 using CompanyNetwork.Core.EnumHelper;
+using CompanyNetwork.Core.TreeStructure;
+using CompanyNetwork.Core.TreeStructure.Nodes;
+using CompanyNetwork.Models.ChartModels;
 
 namespace CompanyNetwork.BaseTree
 {

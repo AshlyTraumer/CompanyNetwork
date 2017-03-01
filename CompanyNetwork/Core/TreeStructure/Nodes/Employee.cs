@@ -1,9 +1,7 @@
 ﻿using System;
-using CompanyNetwork.TreeStructure;
 using DomenModel.Enums;
-using CompanyNetwork.TreeStructure.Nodes;
 
-namespace CompanyNetwork.BaseTree
+namespace CompanyNetwork.Core.TreeStructure.Nodes
 {
     public class Employee
     {

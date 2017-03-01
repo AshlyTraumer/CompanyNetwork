@@ -1,5 +1,6 @@
 ﻿using CompanyNetwork.Models;
 using System.Linq;
+using CompanyNetwork.Models.InfoModels;
 
 
 namespace CompanyNetwork.Core.OrderFilter
@@ -22,16 +23,10 @@ namespace CompanyNetwork.Core.OrderFilter
 
             if (orderByProperty == "Citizenship")
             {
-
                 return (desc)
                     ? source.OrderByDescending(x => x.Citizenship.Name)
                     : source.OrderBy(x => x.Citizenship.Name);                
             }
-
-            if (orderByProperty == "Id")
-                return (desc)
-                    ? source.OrderByDescending(x => x.Id)
-                    : source.OrderBy(x => x.Id);
 
             if (orderByProperty == "DateOfBirth")
                 return (desc)

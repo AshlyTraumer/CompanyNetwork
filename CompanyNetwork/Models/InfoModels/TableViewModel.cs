@@ -1,15 +1,11 @@
 ﻿using System;
-using DomenModel.Enums;
-using CompanyNetwork.TreeStructure;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using CompanyNetwork.Core.EnumHelper;
-using CompanyNetwork.Models.ViewModels;
 using System.Globalization;
+using System.Linq;
+using CompanyNetwork.Core.EnumHelper;
+using DomenModel.Enums;
 
-namespace CompanyNetwork.Models
+namespace CompanyNetwork.Models.InfoModels
 {
     public class TableViewModel
     {
@@ -32,119 +28,54 @@ namespace CompanyNetwork.Models
 
         public string DepartamentTitle { get; set; }
 
-        public string SexDescription
-        {
-            get
-            {
-                return EnumHelper.GetDescription(Sex);
-            }
-        }
+        public string SexDescription => EnumHelper.GetDescription(Sex);
 
         public List<string> LanguageDescriptions
         {
             get
             {
                 var array = EnumHelper.GetFlags(Language);
-                var arrayDescr = new List<string>();
-                foreach (var item in array)
-                {
-                    arrayDescr.Add(EnumHelper.GetDescription(item));
-                }
-                return arrayDescr;
+                return array.Select(EnumHelper.GetDescription).ToList();
             }
         }
         
-        public string Fio
-        {
-            get
-            {
-                return (LastName != null)
-                    ? $"{FirstName} {Name[0]}. {LastName[0]}."
-                    : $"{FirstName} {Name[0]}.";
-            }
-        }
+        public string Fio => (LastName != null)
+            ? $"{FirstName} {Name[0]}. {LastName[0]}."
+            : $"{FirstName} {Name[0]}.";
 
-        public string DateOfBirthFormat
-        {
-            get
-            {
-                return DateOfBirth.ToString("g", CultureInfo.CurrentCulture);
-            }
-        }
+        public string DateOfBirthFormat => DateOfBirth.ToString("g", CultureInfo.CurrentCulture);
 
-        public string DateOfEmploymentFormat
-        {
-            get
-            {
-                return DateOfEmployment.ToString("g", CultureInfo.CurrentCulture);
-            }
-        }
+        public string DateOfEmploymentFormat => DateOfEmployment.ToString("g", CultureInfo.CurrentCulture);
 
-        public string DateOfDismissalFormat
-        {
-            get
-            {
-                return (DateOfDismissal == null)
-                    ? "No details"
-                    :  ((DateTime) DateOfDismissal).ToString("g",CultureInfo.CurrentCulture);
-            }
-        }
+        public string DateOfDismissalFormat => DateOfDismissal?.ToString("g",CultureInfo.CurrentCulture) ?? "No details";
 
         public string LanguageFormat
         {
             get
             {
-                var str = new List<string>();
+                var str = EnumHelper.GetFlags(Language).Select(EnumHelper.GetDescription).ToList();
 
-                foreach (var item in EnumHelper.GetFlags(Language))
-                {
-                    str.Add(EnumHelper.GetDescription(item));
-                }
-                    
                 return string.Join(Environment.NewLine, str);
             }
         }
 
 
 
-        public string CitizenshipFormat
-        {
-            get
-            {
-                return Citizenship.Name;
-            }
-        }
+        public string CitizenshipFormat => Citizenship.Name;
 
         public string SexFormat
         {
             get
             {               
-                var str = new List<string>();
+                var str = EnumHelper.GetFlags(Sex).Select(EnumHelper.GetDescription).ToList();
 
-                foreach (var item in EnumHelper.GetFlags(Sex))
-                {
-                    str.Add(EnumHelper.GetDescription(item));
-                }
-                    
                 return string.Join(Environment.NewLine, str);
             }
         }
 
-        public string IsReadyForMovingFormat
-        {
-            get
-            {
-                return (IsReadyForMoving) ? "Yes" : "No";
-            }
-        }
+        public string IsReadyForMovingFormat => (IsReadyForMoving) ? "Yes" : "No";
 
-        public string IsReadyForBusinessTripFormat
-        {
-            get
-            {
-                return (IsReadyForBusinessTrip) ? "Yes" : "No";
-            }
-        }
+        public string IsReadyForBusinessTripFormat => (IsReadyForBusinessTrip) ? "Yes" : "No";
 
         public string SortId { get; set; } = "Id";
         

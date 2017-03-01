@@ -10,9 +10,9 @@ namespace CompanyNetwork.Core.EnumHelper
     {
         public static IEnumerable<Enum> GetFlags(Enum input)
         {
-            foreach (Enum value in Enum.GetValues(input.GetType()))
-                if (input.HasFlag(value))
-                    yield return value;
+            return Enum.GetValues(input.GetType())
+                .Cast<Enum>()
+                .Where(input.HasFlag);
         }
 
         public static string GetDescription(Enum age)

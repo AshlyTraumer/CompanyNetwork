@@ -204,19 +204,18 @@
     <Compile Include="Core\EnumHelper\EnumHelper.cs" />
     <Compile Include="Core\OrderFilter\OrderFilter.cs" />
     <Compile Include="Models\ChartModels\ChartModel.cs" />
-    <Compile Include="Models\ChartModels\ChartViewModel.cs" />
     <Compile Include="Models\InfoModels\CitizenshipModel.cs" />
     <Compile Include="Models\InfoModels\DepartamentModel.cs" />
     <Compile Include="Models\InfoModels\DictionaryModel.cs" />
     <Compile Include="Models\FilterModels\FilterModel.cs" />
     <Compile Include="Models\InfoModels\TableViewModel.cs" />
-    <Compile Include="TreeStructure\AgeGroup.cs" />
-    <Compile Include="TreeStructure\ExperienceGroup.cs" />
-    <Compile Include="TreeStructure\Nodes\CitizenshipDescription.cs" />
-    <Compile Include="TreeStructure\Nodes\DepartamentNode.cs" />
-    <Compile Include="TreeStructure\Nodes\Employee.cs" />
-    <Compile Include="TreeStructure\Nodes\EmployeeBuilder.cs" />
-    <Compile Include="TreeStructure\TreeCreator.cs" />
+    <Compile Include="Core\TreeStructure\AgeGroup.cs" />
+    <Compile Include="Core\TreeStructure\ExperienceGroup.cs" />
+    <Compile Include="Core\TreeStructure\Nodes\CitizenshipDescription.cs" />
+    <Compile Include="Core\TreeStructure\Nodes\DepartamentNode.cs" />
+    <Compile Include="Core\TreeStructure\Nodes\Employee.cs" />
+    <Compile Include="Core\TreeStructure\Nodes\EmployeeBuilder.cs" />
+    <Compile Include="Core\TreeStructure\TreeCreator.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -227,7 +226,7 @@
   <ItemGroup>
     <Content Include="Content\Css\bootstrap.css" />
     <Content Include="Content\Css\bootstrap.min.css" />
-    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Home\About\Chart.js" />
     <Content Include="Content\Css\Info.css" />
     <Content Include="Content\Css\PagedList.css" />
     <Content Include="favicon.ico" />
@@ -242,8 +241,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\ChartBuilder.js" />
-    <Content Include="Scripts\InfoScript.js" />
+    <Content Include="Scripts\Home\About\ChartBuilder.js" />
+    <Content Include="Scripts\Home\Info\InfoScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -266,7 +265,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Chart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Info.cshtml" />
     <Content Include="Views\Shared\_TablePartial.cshtml" />

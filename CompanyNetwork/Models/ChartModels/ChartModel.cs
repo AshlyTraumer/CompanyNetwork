@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
-
-namespace CompanyNetwork.Models
+namespace CompanyNetwork.Models.ChartModels
 {
     public class ChartModel<T> 
     {

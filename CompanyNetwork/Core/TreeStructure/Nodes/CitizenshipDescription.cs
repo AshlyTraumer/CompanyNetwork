@@ -1,4 +1,4 @@
-﻿namespace CompanyNetwork.TreeStructure.Nodes
+﻿namespace CompanyNetwork.Core.TreeStructure.Nodes
 {
     public class CitizenshipDescription
     {

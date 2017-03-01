@@ -1,11 +1,10 @@
-﻿using CompanyNetwork.Models;
-using DomenModel.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using CompanyNetwork.Models.InfoModels;
+using DomenModel.Enums;
 
-namespace CompanyNetwork.Models
+namespace CompanyNetwork.Models.FilterModels
 {
     public class FilterModel
     {

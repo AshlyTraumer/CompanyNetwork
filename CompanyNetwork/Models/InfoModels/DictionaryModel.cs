@@ -1,4 +1,4 @@
-﻿namespace CompanyNetwork.Models
+﻿namespace CompanyNetwork.Models.InfoModels
 {
     public class DictionaryModel
     {

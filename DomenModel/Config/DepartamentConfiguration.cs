@@ -3,7 +3,7 @@ using DomenModel.Models;
 
 namespace DomenModel.Config
 {
-    class DepartamentConfiguration : EntityTypeConfiguration<Departament>
+    public class DepartamentConfiguration : EntityTypeConfiguration<Departament>
     {
         public DepartamentConfiguration()
         {

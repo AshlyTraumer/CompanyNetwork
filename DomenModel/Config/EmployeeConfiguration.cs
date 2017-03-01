@@ -3,7 +3,7 @@ using DomenModel.Models;
 
 namespace DomenModel.Config
 {
-    class EmployeeConfiguration : EntityTypeConfiguration<Employee>
+    public class EmployeeConfiguration : EntityTypeConfiguration<Employee>
     {
         public EmployeeConfiguration()
         {

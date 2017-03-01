@@ -10,7 +10,9 @@ using CompanyNetwork.Core.OrderFilter;
 using DomenModel;
 using DomenModel.Enums;
 using CompanyNetwork.Core.EnumHelper;
-using CompanyNetwork.Models.ViewModels;
+using CompanyNetwork.Core.TreeStructure;
+using CompanyNetwork.Models.FilterModels;
+using CompanyNetwork.Models.InfoModels;
 
 namespace CompanyNetwork.Controllers
 {
@@ -57,24 +59,21 @@ namespace CompanyNetwork.Controllers
             return View(model);
         }
 
+        [ActionName("Chart")]
         public ActionResult About()
         {
             return View();
         }
 
-        public ActionResult Chart()
+        public ActionResult ChartAge()
         {
             var chartModel = _model.GetById(2).BuildChartByAge;
-            var dict = new List<DictionaryModel>();
 
-            foreach (var item in chartModel.Dictionary)
+            var dict = chartModel.Dictionary.Select(item => new DictionaryModel
             {
-                dict.Add(new DictionaryModel
-                {
-                    Description = EnumHelper.GetDescription(item.Key),
-                    Value = item.Value
-                });
-            }
+                Description = EnumHelper.GetDescription(item.Key), Value = item.Value
+            })
+            .ToList();
 
             return Json(dict, JsonRequestBehavior.AllowGet);
 
@@ -83,16 +82,12 @@ namespace CompanyNetwork.Controllers
         public ActionResult ChartLanguage()
         {
             var chartModel = _model.GetById(2).BuildChartByLanguage;
-            var dict = new List<DictionaryModel>();
 
-            foreach (var item in chartModel.Dictionary)
+            var dict = chartModel.Dictionary.Select(item => new DictionaryModel
             {
-                dict.Add(new DictionaryModel
-                {
-                    Description = EnumHelper.GetDescription(item.Key),
-                    Value = item.Value
-                });
-            }
+                Description = EnumHelper.GetDescription(item.Key), Value = item.Value
+            })
+            .ToList();
 
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
@@ -100,16 +95,11 @@ namespace CompanyNetwork.Controllers
         public ActionResult ChartExperience()
         {
             var chartModel = _model.GetById(2).BuildChartByExperience;
-            var dict = new List<DictionaryModel>();
 
-            foreach (var item in chartModel.Dictionary)
+            var dict = chartModel.Dictionary.Select(item => new DictionaryModel
             {
-                dict.Add(new DictionaryModel
-                {
-                    Description = EnumHelper.GetDescription(item.Key),
-                    Value = item.Value
-                });
-            }
+                Description = EnumHelper.GetDescription(item.Key), Value = item.Value
+            }).ToList();
 
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
@@ -145,7 +135,7 @@ namespace CompanyNetwork.Controllers
         [HttpPost]
         public ActionResult Info(FilterModel model)
         {
-            var size = 20;
+            const int size = 20;
             var param = "Id";
 
             var query = _context.Emloyees
@@ -171,10 +161,7 @@ namespace CompanyNetwork.Controllers
                      DepartamentTitle = q.Departament.Name
                  });
 
-            foreach(var filter in model.GetFilters())
-            {
-                query = query.Where(filter);
-            }
+            query = model.GetFilters().Aggregate(query, (current, filter) => current.Where(filter));
 
             var count = query.Count();
 
@@ -187,24 +174,22 @@ namespace CompanyNetwork.Controllers
                             .Take(size)
                             .ToList();            
             
-            var pages = (count % size == 0) 
+            var page = (count % size == 0) 
                 ? count / size 
                 : count / size + 1;       
 
             return Json(new {
                 list = sortedData,
-                pages = pages,
+                pages = page,
                 currentPage = model.CurrentPage,
-                paginator = GetPagesNums(model.CurrentPage, pages),
+                paginator = GetPagesNums(model.CurrentPage, page),
                 sortColumn = param
             });
         }
 
         private HashSet<int> GetPagesNums(int currentPage, int pages)
         {
-            var numList = new HashSet<int>();
-
-            numList.Add(1);
+            var numList = new HashSet<int> {1};
 
             if (pages > 1)
                 numList.Add(2);

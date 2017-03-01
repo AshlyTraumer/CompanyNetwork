@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CompanyNetwork.TreeStructure
+namespace CompanyNetwork.Core.TreeStructure
 {
     public enum AgeGroup
     {

@@ -7,7 +7,7 @@ namespace CompanyNetwork
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-1.8.3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                          "~/Scripts/jquery.validate*"));
@@ -28,12 +28,11 @@ namespace CompanyNetwork
                       "~/Content/Css/site.css"));
 
             bundles.Add(new ScriptBundle("~/Content/chart").Include(
-                      "~/Scripts/jquery-1.8.3.js",
-                      "~/Scripts/ChartBuilder.js",
-                      "~/Scripts/Chart.js"));
+                      "~/Scripts/Home/About/ChartBuilder.js",
+                      "~/Scripts/Home/About/Chart.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/info").Include(
-                       "~/Scripts/InfoScript.js"));
+                       "~/Scripts/Home/Info/InfoScript.js"));
         }
     }
 }

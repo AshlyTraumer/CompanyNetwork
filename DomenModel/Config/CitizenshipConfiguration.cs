@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomenModel.Config
 {
-    class CitizenshipDescriptionConfiguration : EntityTypeConfiguration<CitizenshipDescription>
+    public class CitizenshipDescriptionConfiguration : EntityTypeConfiguration<CitizenshipDescription>
     {
         public CitizenshipDescriptionConfiguration()
         {

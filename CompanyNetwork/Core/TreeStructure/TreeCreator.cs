@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CompanyNetwork.Models;
+using CompanyNetwork.BaseTree;
+using CompanyNetwork.Core.TreeStructure.Nodes;
 using DomenModel.Models;
+using CitizenshipDescription = CompanyNetwork.Core.TreeStructure.Nodes.CitizenshipDescription;
 
-namespace CompanyNetwork.BaseTree
+namespace CompanyNetwork.Core.TreeStructure
 {
     public static class TreeCreator
     {
-        public static DepartamentNode _root { get; private set; }
+        public static DepartamentNode Root { get; private set; }
 
         public static DepartamentNode MakeTree(List<Departament> list)
         {
-            _root = NodeCreator(list.Single(q => q.ParentId == null), list);
+            Root = NodeCreator(list.Single(q => q.ParentId == null), list);
 
-            return _root;
+            return Root;
         }
 
         private static DepartamentNode NodeCreator(Departament item, List<Departament> list)
@@ -34,7 +36,7 @@ namespace CompanyNetwork.BaseTree
                    .SetLanguage(employee.Language)
                    .SetLastName(employee.LastName)
                    .SetNationality(
-                   new TreeStructure.Nodes.CitizenshipDescription
+                   new CitizenshipDescription
                    {
                        Id = employee.CitizenshipDescription.Id,
                        Name = employee.CitizenshipDescription.Name

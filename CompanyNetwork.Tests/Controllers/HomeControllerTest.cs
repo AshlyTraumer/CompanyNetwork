@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Xml;
 using CompanyNetwork.BaseTree;
+using CompanyNetwork.Core.TreeStructure;
 using CompanyNetwork.Models;
 
 namespace CompanyNetwork.Tests.Controllers

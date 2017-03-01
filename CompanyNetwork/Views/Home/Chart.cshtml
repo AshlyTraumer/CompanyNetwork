@@ -2,7 +2,9 @@
     ViewBag.Title = "About";
 }
 
-@Scripts.Render("~/Content/chart")
+@section scripts {
+    @Scripts.Render("~/Content/chart")
+}
 
 <table>
     <tr>
@@ -27,7 +29,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: '@Url.Action("Chart", "Home")',
+            url: '@Url.Action("ChartAge", "Home")',
             type: 'GET',
             contentType: "application/json; charset=utf-8",
             dataType: "json",

@@ -1,4 +1,4 @@
-﻿namespace CompanyNetwork.Models.ViewModels
+﻿namespace CompanyNetwork.Models.InfoModels
 {
     public class CitizenshipModel
     {
