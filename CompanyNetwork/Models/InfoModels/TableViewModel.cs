@@ -35,7 +35,9 @@ namespace CompanyNetwork.Models.InfoModels
             get
             {
                 var array = EnumHelper.GetFlags(Language);
-                return array.Select(EnumHelper.GetDescription).ToList();
+                return array
+                    .Select(EnumHelper.GetDescription)
+                    .ToList();
             }
         }
         
@@ -53,7 +55,10 @@ namespace CompanyNetwork.Models.InfoModels
         {
             get
             {
-                var str = EnumHelper.GetFlags(Language).Select(EnumHelper.GetDescription).ToList();
+                var str = EnumHelper
+                    .GetFlags(Language)
+                    .Select(EnumHelper.GetDescription)
+                    .ToList();
 
                 return string.Join(Environment.NewLine, str);
             }
@@ -67,7 +72,10 @@ namespace CompanyNetwork.Models.InfoModels
         {
             get
             {               
-                var str = EnumHelper.GetFlags(Sex).Select(EnumHelper.GetDescription).ToList();
+                var str = EnumHelper
+                    .GetFlags(Sex)
+                    .Select(EnumHelper.GetDescription)
+                    .ToList();
 
                 return string.Join(Environment.NewLine, str);
             }

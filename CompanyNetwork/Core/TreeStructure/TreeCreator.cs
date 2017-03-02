@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CompanyNetwork.BaseTree;
 using CompanyNetwork.Core.TreeStructure.Nodes;
 using DomenModel.Models;
 using CitizenshipDescription = CompanyNetwork.Core.TreeStructure.Nodes.CitizenshipDescription;

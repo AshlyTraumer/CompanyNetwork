@@ -73,18 +73,41 @@ namespace CompanyNetwork.Models.FilterModels
             if ((DateOfBirthFrom != null) && (DateOfBirthTo != null))
             {
                 var splitFrom = DateOfBirthFrom.Split('-');
-                var dateFrom = new DateTime(int.Parse(splitFrom[0]), int.Parse(splitFrom[1]), int.Parse(splitFrom[2]));
+                var dateFrom = new DateTime(
+                    int.Parse(splitFrom[0]), 
+                    int.Parse(splitFrom[1]), 
+                    int.Parse(splitFrom[2])
+                    );
+
                 var splitTo = DateOfBirthTo.Split('-');
-                var dateTo = new DateTime(int.Parse(splitTo[0]), int.Parse(splitTo[1]), int.Parse(splitTo[2]));
+
+                var dateTo = new DateTime(
+                    int.Parse(splitTo[0]),
+                    int.Parse(splitTo[1]),
+                    int.Parse(splitTo[2])
+                    );
+
                 list.Add(q => (q.DateOfBirth >= dateFrom) && (q.DateOfBirth <= dateTo));
             }
 
             if ((DateOfEmploymentFrom != null) && (DateOfEmploymentTo != null))
             {
                 var splitFrom = DateOfEmploymentFrom.Split('-');
-                var dateFrom = new DateTime(int.Parse(splitFrom[0]), int.Parse(splitFrom[1]), int.Parse(splitFrom[2]));
+
+                var dateFrom = new DateTime(
+                    int.Parse(splitFrom[0]),
+                    int.Parse(splitFrom[1]),
+                    int.Parse(splitFrom[2])
+                    );
+
                 var splitTo = DateOfEmploymentTo.Split('-');
-                var dateTo = new DateTime(int.Parse(splitTo[0]), int.Parse(splitTo[1]), int.Parse(splitTo[2]));
+
+                var dateTo = new DateTime(
+                    int.Parse(splitTo[0]),
+                    int.Parse(splitTo[1]),
+                    int.Parse(splitTo[2])
+                    );
+
                 list.Add(q => (q.DateOfEmployment >= dateFrom) && (q.DateOfEmployment <= dateTo));
             }
 

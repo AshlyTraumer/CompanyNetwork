@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CompanyNetwork.Models;
-using DomenModel.Enums;
-using CompanyNetwork.Core.EnumHelper;
-using CompanyNetwork.Core.TreeStructure;
-using CompanyNetwork.Core.TreeStructure.Nodes;
 using CompanyNetwork.Models.ChartModels;
+using DomenModel.Enums;
 
-namespace CompanyNetwork.BaseTree
+namespace CompanyNetwork.Core.TreeStructure.Nodes
 {
     public class DepartamentNode
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
         public Countries Country { get; private set; }
+
         public IReadOnlyList<DepartamentNode> Children;
         public IReadOnlyList<Employee> Employees;
 
@@ -60,11 +57,9 @@ namespace CompanyNetwork.BaseTree
 
                 if (Children.Count != 0)
                 {
-                    foreach (var child in Children)
-                    {
-                        years += child.EmployeeAge;
-                    }
+                    years += Children.Sum(child => child.EmployeeAge);
                 }
+
                 return years + Employees
                     .Select(q => q.Age)
                     .Sum();
@@ -103,18 +98,12 @@ namespace CompanyNetwork.BaseTree
                 }                    
                 else
                 {
-                    foreach (var child in Children)
-                    {
-                        var node = child.GetById(id);
-
-                        if (node != null)
-                        {
-                            return node;
-                        }                            
-                    }
+                    return Children
+                        .Select(child => child.GetById(id))
+                        .FirstOrDefault(node => node != null);
                 }
             }
-            return null;
+            
         }
 
 
@@ -139,12 +128,8 @@ namespace CompanyNetwork.BaseTree
                 }
             }
 
-            foreach (var child in Children)
-            {
-               model = child.ChartByAgeCreator(model);
-            }
-
-            return model;
+            return Children
+                .Aggregate(model, (current, child) => child.ChartByAgeCreator(current));
         }
 
         private ChartModel<Language> ChartByLanguageCreator(ChartModel<Language> model)
@@ -153,7 +138,7 @@ namespace CompanyNetwork.BaseTree
             {
                 if (employee.IsWork)
                 {
-                    var languages = EnumHelper.GetFlags(employee.Language);
+                    var languages = EnumHelper.EnumHelper.GetFlags(employee.Language);
 
                     foreach (Language l in languages)
                     {
@@ -169,12 +154,8 @@ namespace CompanyNetwork.BaseTree
                 }                   
             }
 
-            foreach (var child in Children)
-            {
-                model = child.ChartByLanguageCreator(model);
-            }
-
-            return model;
+            return Children
+                .Aggregate(model, (current, child) => child.ChartByLanguageCreator(current));
         }
 
         private ChartModel<ExperienceGroup> ChartByExperienceCreator(ChartModel<ExperienceGroup> model)
@@ -194,12 +175,8 @@ namespace CompanyNetwork.BaseTree
 
             }
 
-            foreach (var child in Children)
-            {
-                model = child.ChartByExperienceCreator(model);
-            }
-
-            return model;
+            return Children
+                .Aggregate(model, (current, child) => child.ChartByExperienceCreator(current));
         }
     }
 }

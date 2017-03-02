@@ -4,13 +4,13 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using CompanyNetwork.BaseTree;
 using CompanyNetwork.Core;
 using CompanyNetwork.Core.OrderFilter;
 using DomenModel;
 using DomenModel.Enums;
 using CompanyNetwork.Core.EnumHelper;
 using CompanyNetwork.Core.TreeStructure;
+using CompanyNetwork.Core.TreeStructure.Nodes;
 using CompanyNetwork.Models.FilterModels;
 using CompanyNetwork.Models.InfoModels;
 
@@ -20,13 +20,14 @@ namespace CompanyNetwork.Controllers
     {
         private CompanyContext _context => HttpContext.GetContextPerRequest();
         private DepartamentNode _model;
-        
-        
+
+
         public ActionResult Index()
-        {   
+        {
             var watch = Stopwatch.StartNew();
 
-            var model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees).ToList())
+            var model = TreeCreator.MakeTree(_context.Departaments.Include(q => q.Employees)
+               .ToList())
                .GetNodes
                .OrderByDescending(q => q.EmployeeCount)
                .ThenByDescending(q => q.DepartamentCount)
@@ -65,11 +66,13 @@ namespace CompanyNetwork.Controllers
         {
             var chartModel = _model.GetById(2).BuildChartByAge;
 
-            var dict = chartModel.Dictionary.Select(item => new DictionaryModel
-            {
-                Description = EnumHelper.GetDescription(item.Key), Value = item.Value
-            })
-            .ToList();
+            var dict = chartModel.Dictionary
+                .Select(item => new DictionaryModel
+                {
+                    Description = EnumHelper.GetDescription(item.Key),
+                    Value = item.Value
+                })
+                .ToList();
 
             return Json(dict, JsonRequestBehavior.AllowGet);
 
@@ -79,11 +82,13 @@ namespace CompanyNetwork.Controllers
         {
             var chartModel = _model.GetById(2).BuildChartByLanguage;
 
-            var dict = chartModel.Dictionary.Select(item => new DictionaryModel
-            {
-                Description = EnumHelper.GetDescription(item.Key), Value = item.Value
-            })
-            .ToList();
+            var dict = chartModel.Dictionary
+                .Select(item => new DictionaryModel
+                {
+                    Description = EnumHelper.GetDescription(item.Key),
+                    Value = item.Value
+                })
+                .ToList();
 
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
@@ -92,10 +97,13 @@ namespace CompanyNetwork.Controllers
         {
             var chartModel = _model.GetById(2).BuildChartByExperience;
 
-            var dict = chartModel.Dictionary.Select(item => new DictionaryModel
-            {
-                Description = EnumHelper.GetDescription(item.Key), Value = item.Value
-            }).ToList();
+            var dict = chartModel.Dictionary
+                .Select(item => new DictionaryModel
+                {
+                    Description = EnumHelper.GetDescription(item.Key),
+                    Value = item.Value
+                })
+                .ToList();
 
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
@@ -107,20 +115,20 @@ namespace CompanyNetwork.Controllers
 
             foreach (var item in Enum.GetValues(typeof(SexOfPerson)))
             {
-                enumList.Add(EnumHelper.GetDescription((SexOfPerson) item));
+                enumList.Add(EnumHelper.GetDescription((SexOfPerson)item));
             }
 
             ViewBag.Sex = enumList;
 
             enumList = new List<string>();
-            
+
             foreach (var item in Enum.GetValues(typeof(Language)))
             {
                 enumList.Add(EnumHelper.GetDescription((Language)item));
             }
 
             ViewBag.Language = enumList;
-                                 
+
             ViewBag.Сitizenship = _context.CitizenshipDescriptions
                 .Select(q => q.Name)
                 .ToList();
@@ -131,7 +139,7 @@ namespace CompanyNetwork.Controllers
         [HttpPost]
         public ActionResult Info(FilterModel model)
         {
-           
+
             const int size = 20;
             var param = "Id";
 
@@ -158,24 +166,25 @@ namespace CompanyNetwork.Controllers
                      DepartamentTitle = q.Departament.Name
                  });
 
-            query = model.GetFilters().Aggregate(query, (current, filter) => current.Where(filter));
+            query = model.GetFilters()
+                .Aggregate(query, (current, filter) => current.Where(filter));
 
             var count = query.Count();
 
             param = (model.SortId != null) ? param = model.SortId : param;
-                      
-                       
-            var sortedData = new List<TableViewModel>();          
-             sortedData = query.OrderBy(param,model.IsDesc)                
-                    .Skip((model.CurrentPage - 1) * size)
-                            .Take(size)
-                            .ToList();            
-            
-            var page = (count % size == 0) 
-                ? count / size 
-                : count / size + 1;       
 
-            return Json(new {
+
+           var sortedData = query.OrderBy(param, model.IsDesc)
+                   .Skip((model.CurrentPage - 1) * size)
+                           .Take(size)
+                           .ToList();
+
+            var page = (count % size == 0)
+                ? count / size
+                : count / size + 1;
+
+            return Json(new
+            {
                 list = sortedData,
                 pages = page,
                 currentPage = model.CurrentPage,
@@ -186,7 +195,7 @@ namespace CompanyNetwork.Controllers
 
         private HashSet<int> GetPagesNums(int currentPage, int pages)
         {
-            var numList = new HashSet<int> {1};
+            var numList = new HashSet<int> { 1 };
 
             if (pages > 1)
                 numList.Add(2);
@@ -196,7 +205,7 @@ namespace CompanyNetwork.Controllers
 
             if (currentPage != 1)
                 numList.Add(currentPage - 1);
-           
+
             numList.Add(currentPage);
 
             if (currentPage != pages)

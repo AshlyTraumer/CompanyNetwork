@@ -1,5 +1,4 @@
-﻿using CompanyNetwork.Models;
-using System.Linq;
+﻿using System.Linq;
 using CompanyNetwork.Models.InfoModels;
 
 
